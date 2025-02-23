@@ -12,3 +12,95 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  cart      Cart[]
+  order     Order[]
+
+  @@map("user")
+}
+
+model Order {
+  id              Int         @id @default(autoincrement())
+  user            String
+  shippingAddress String
+  isPaid          String
+  paidAt          DateTime
+  isDelivered     Boolean     @default(false)
+  deliveredAt     DateTime
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  orderitem       OrderItem[]
+  userId          Int
+  User            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("order")
+}
+
+model OrderItem {
+  id        Int      @id @default(autoincrement())
+  name      String
+  qty       Int
+  image     String
+  price     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  orderId   Int
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("orderitem")
+}
+
+model Product {
+  id           Int        @id @default(autoincrement())
+  name         String
+  image        String
+  desc         String     @map("description")
+  rating       Float
+  numReview    Int
+  price        Decimal
+  countInStock Int
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  cartitem     CartItem[]
+
+  @@map("product")
+}
+
+model Cart {
+  id         Int      @id @default(autoincrement())
+  updatedAt  DateTime @updatedAt
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cartItemId Int
+  cartItem   CartItem @relation(fields: [cartItemId], references: [id], onDelete: Cascade)
+
+  @@map("cart")
+}
+
+model CartItem {
+  id        Int      @id @default(autoincrement())
+  name      String
+  qty       Int
+  image     String
+  price     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  cart      Cart[]
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("cartitem")
+}
