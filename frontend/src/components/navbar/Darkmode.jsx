@@ -6,9 +6,9 @@ function Darkmode() {
 : "light"
 );
 
-const element = document.documentElement;
-console.log(element)
+const element = document.documentElement; //access to html element
 
+//adding theme to localstorage and html element
 useEffect(()=>{
     localStorage.setItem("theme", theme);
     if (theme === "dark") {
