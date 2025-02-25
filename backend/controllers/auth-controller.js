@@ -5,9 +5,9 @@ const createError = require('../utils/createError')
 
 module.exports.register = async (req, res, next) => {
     try {
-        const { email, name, password, confirmPassword } = req.body
+        const { email, firstName,lastName, password, confirmPassword } = req.body
         // validation
-        if (!(email.trim() && name.trim() && password && confirmPassword)) {
+        if ( !(email.trim() && firstName.trim() && lastName && password && confirmPassword)) {
             createError(400, "Please fill all data")
         }
         if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
@@ -33,7 +33,8 @@ module.exports.register = async (req, res, next) => {
         const newUser = {
             email: email,
             password: hashedPassword,
-            name,
+            firstName,
+            lastName
         }
 
         const result = await prisma.user.create({ data: newUser })
@@ -51,7 +52,7 @@ module.exports.login = async (req, res,next) => {
         const { email, password } = req.body
 
         // validation
-        if (!(email.trim() && password.trim())) {
+        if (!email.trim() || !password.trim()) {
             createError(400, "Please fill all data")
         }
 
@@ -75,7 +76,7 @@ module.exports.login = async (req, res,next) => {
         }
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '30d' })
         const { password: pwd, createdAt, updatedAt, ...userData } = findUser
-        res.json({ token: token, user: userData })
+        res.json({ token: token, email: userData })
 
     } catch (error) {
         next(error)
