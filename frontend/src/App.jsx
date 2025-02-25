@@ -7,9 +7,9 @@ import Category from './components/category/Category'
 
 function App() {
   return (
-    <div className=''>
+    <div className='bg-white dark:bg-gray-900 dark:text-white duration-200'>
       <Navbar />
-      <main>
+      <main className=''>
         <Hero />
       </main>
       <div>

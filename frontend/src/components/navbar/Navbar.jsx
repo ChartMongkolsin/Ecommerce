@@ -1,11 +1,9 @@
 import React from 'react'
 import { IoMdSearch } from "react-icons/io"
 import { FaCaretDown, FaCartShopping } from "react-icons/fa6"
-import { LuLogIn } from "react-icons/lu";
 import Darkmode from './Darkmode';
 import { Link } from 'react-router-dom';
-import Login from '../../pages/Login';
-
+import { Profile } from '../../icons';
 function Navbar() {
 
     const MenuLinks = [
@@ -78,7 +76,7 @@ function Navbar() {
                         <button className='relative p-3 cursor-pointer group'>
                             <div className="dropdown dropdown-bottom">
                                 <div tabIndex={0} role="button" className="inline-block px-4 font-semibold text-gray-500 hover:text-black dark:hover:text-white duration-200">
-                                    <Link to="/login">Login | Resgister</Link>
+                                    <Link to="/login"><Profile className="w-7 dark:text-gray-400"/></Link>
                                 </div>
                             </div>
                         </button>
