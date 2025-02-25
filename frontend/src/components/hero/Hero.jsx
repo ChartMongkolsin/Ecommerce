@@ -3,7 +3,6 @@ import Slider from "react-slick";
 import Image1 from "../../assets/hero/headphone.png"
 import Image2 from "../../assets/category/vr.png"
 import Image3 from "../../assets/category/macbook.png"
-import Button from '../shared/button';
 
 
 const HeroData = [
@@ -13,23 +12,20 @@ const HeroData = [
         subtitle: "Beats Solo",
         title: "Wireless",
         title2: "Headphone",
-        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam quod rem ipsa ut magni repudiandae ex molestias voluptatibus aperiam odit",
     },
     {
         id: 2,
         img: Image2,
         subtitle: "Beats Solo",
         title: "Wireless",
-        title2: "Headphone",
-        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam quod rem ipsa ut magni repudiandae ex molestias voluptatibus aperiam odit",
+        title2: "Virtual",
     },
     {
-        id: 3,
+        id: 1,
         img: Image3,
         subtitle: "Beats Solo",
-        title: "Wireless",
-        title2: "Headphone",
-        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam quod rem ipsa ut magni repudiandae ex molestias voluptatibus aperiam odit",
+        title: "Branded",
+        title2: "Laptops",
     },
 
 ]
@@ -47,9 +43,9 @@ function Hero() {
         pauseOnFocus: true,
     };
     return (
-        <div className='container'>
+        <div className='container mt-12'>
             <div className='overflow-hidden rounded-3xl min-h-[550px] sm:min-h-[650px] hero-bg-color flex justify-center items-center '>
-                <div className='container pb-8 sm:pb-0'>
+                <div className='container pb-0 sm:pb-'>
                     {/* Hero Section */}
                     <Slider {...settings}>
                         {
@@ -61,12 +57,10 @@ function Hero() {
                                         text-center sm:text-left order-2 sm:order-1 relative z-10 '>
                                             <h1 className='text-2xl sm:text-6xl lg:text-2xl font-bold'>{data.subtitle}</h1>
                                             <h1 className='text-5xl sm:text-6xl lg:text-7xl font-bold'>{data.title}</h1>
-                                            <h1 className='text-5xl uppercase text-white dark:text-white/5 sm:text-[80px]
+                                            <h1 className='text-5xl uppercase text-white dark:text-white/5 sm:text-[60px]
                                             md:text-[100px] xl:text-[150px] font-bold'>{data.title2}</h1>
                                             <div>
-                                                <Button text="Shop Now"
-                                                bgColor= "bg-primary"
-                                                textColor="text-white"/>
+                                            <button className="btn btn-primary outline-none font-bold ">Shop Now</button>
                                             </div>
                                         </div>
                                         {/* TEXT CONTTENT SECTION */}

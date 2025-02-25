@@ -18,20 +18,18 @@ export default {
       container:{
         center : true,
         padding:{
-          DEFAULT : "1rem",
+          DEFAULT : "30px",
           sm: "3rem",
         }
       }
     },
   },
-  plugins: [
-
-  ],
+  plugins: [require('daisyui')],
   daisyui: {
     themes : [
       {
         mytheme : {
-          "primary" : "#0866ff",
+          "primary" : "#f42c37",
           "secondary" : "#42b72a",
           "accent" : "#37cdbe",
           "neutral" : "#3d4451",

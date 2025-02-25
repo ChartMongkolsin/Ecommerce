@@ -6,6 +6,7 @@ import Homepage from "../pages/Homepage";
 
 const guestRouter = createBrowserRouter([
     {path : '/', element: <App/>},
+    {path : 'login', element: <Login/>},
     {path : '/', element: <Navigator to="/"/> }
 ])
 
@@ -16,7 +17,7 @@ const userRouter = createBrowserRouter([
             
             
             </>},
-            {path : 'friend', element : <p>Friends Page</p>},
+            {path : 'login', element : <Login/>},
             {path : '*', element : <Navigate to= "/"/>}
         ]
     },
