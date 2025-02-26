@@ -45,7 +45,7 @@ function Hero() {
     return (
         <div className='container mt-12 '>
             <div className='overflow-hidden rounded-3xl min-h-[550px] sm:min-h-[650px] hero-bg-color flex justify-center items-center '>
-                <div className='container pb-0 sm:pb-'>
+                <div className='container pb-0 sm:pb-1'>
                     {/* Hero Section */}
                     <Slider {...settings}>
                         {

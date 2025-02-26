@@ -3,6 +3,7 @@ import axios from 'axios'
 import useUserStore from '../stores/userstore'
 import { toast } from 'react-toastify'
 import Register from './Register'
+import { useNavigate } from 'react-router'
 
 
 function Login() {
@@ -16,6 +17,7 @@ function Login() {
     const hdlChange = e => {
         setInput(prv => ({ ...prv, [e.target.name]: e.target.value }))
     }
+    const navigate = useNavigate()
 
     const hdlLogin = async (e) => {
         try {
@@ -26,7 +28,8 @@ function Login() {
             }
             // คืออะไร
             let data = await login(input)
-
+            navigate("/")
+            toast.success("Login Success")
         } catch (err) {
             const errMsg = err.response?.data?.error || err.message
             console.log(errMsg)
@@ -74,7 +77,7 @@ function Login() {
                                 <div className="form-control mt-6">
                                     <button className="btn btn-primary text-xl">Log in</button>
                                     <div className="divider my-0"> </div>
-                                        <p className="p-2 text-xs opacity-70 text-center cursor-pointer flex-grow-0">Forgotten password?</p>
+                                    <p className="p-2 text-xs opacity-70 text-center cursor-pointer flex-grow-0">Forgotten password?</p>
                                     <button
                                         type="button"
                                         className="btn btn-secondary text-lg text-white w-fit mx-auto"

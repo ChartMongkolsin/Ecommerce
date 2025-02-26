@@ -5,9 +5,9 @@ const createError = require('../utils/createError')
 
 module.exports.register = async (req, res, next) => {
     try {
-        const { email, firstName,lastName, password, confirmPassword } = req.body
+        const { email, firstName, lastName, password, confirmPassword } = req.body
         // validation
-        if ( !(email.trim() && firstName.trim() && lastName && password && confirmPassword)) {
+        if (!(email.trim() && firstName.trim() && lastName && password && confirmPassword)) {
             createError(400, "Please fill all data")
         }
         if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
@@ -47,7 +47,7 @@ module.exports.register = async (req, res, next) => {
 }
 
 
-module.exports.login = async (req, res,next) => {
+module.exports.login = async (req, res, next) => {
     try {
         const { email, password } = req.body
 
@@ -74,6 +74,7 @@ module.exports.login = async (req, res,next) => {
         const payload = {
             id: findUser.id
         }
+        console.log(payload)
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '30d' })
         const { password: pwd, createdAt, updatedAt, ...userData } = findUser
         res.json({ token: token, email: userData })
@@ -83,7 +84,30 @@ module.exports.login = async (req, res,next) => {
     }
 }
 
-module.exports.getMe = async (req, res,next) => {
+module.exports.update = async (req, res, next) => {
+    try {
+        const { id } = req.user;
+        const { email, firstName, lastName } = req.body;
+
+        console.log("Updating user:", { id, email, firstName, lastName });
+
+
+        const upadateUser = await prisma.user.update({
+            where: {id} , 
+            data: { 
+                email,
+                firstName,
+                lastName,
+              },
+            });
+        res.json({ msg: "Update", user : upadateUser })
+    } catch (error) {
+        next(error)
+    }
+}
+
+
+module.exports.getMe = async (req, res, next) => {
     try {
         res.json({ user: req.user })
 

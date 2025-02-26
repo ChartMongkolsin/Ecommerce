@@ -4,7 +4,16 @@ import { FaCaretDown, FaCartShopping } from "react-icons/fa6"
 import Darkmode from './Darkmode';
 import { Link } from 'react-router-dom';
 import { Profile } from '../../icons';
+import useUserStore from '../../stores/userstore';
+import EditUser from '../../pages/EditUser';
+
+
+
 function Navbar() {
+
+    const user = useUserStore(state => state.user)
+    const logout = useUserStore(state => state.logout)
+    console.log(user)
 
     const MenuLinks = [
         {
@@ -15,7 +24,7 @@ function Navbar() {
         {
             id: 2,
             name: "Shop",
-            link: "/#shop",
+            link: "shop",
         },
         {
             id: 3,
@@ -76,7 +85,24 @@ function Navbar() {
                         <button className='relative p-3 cursor-pointer group'>
                             <div className="dropdown dropdown-bottom">
                                 <div tabIndex={0} role="button" className="inline-block px-4 font-semibold text-gray-500 hover:text-black dark:hover:text-white duration-200">
-                                    <Link to="/login"><Profile className="w-7 dark:text-gray-400"/></Link>
+                                    {user?.firstName
+                                        ? <div className='flex gap-2'>
+                                            <Profile className="w-7 dark:text-gray-400" />
+                                            <h1>{user.firstName}</h1>
+                                            <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                                                <li><a><Link to="/edituser">
+                                                    <h1>Edit User</h1>
+                                                </Link></a></li>
+                                                <li
+                                                    onClick={logout}><a>Logout</a></li>
+                                            </ul>
+                                        </div>
+                                        : <div className='flex gap-2'>
+                                            <Link to="/login">
+                                                {/* ? หลังถ้ามี ถ้าไม่มี */}
+                                                <h1>LOGIN</h1>
+                                            </Link>
+                                        </div>}
                                 </div>
                             </div>
                         </button>

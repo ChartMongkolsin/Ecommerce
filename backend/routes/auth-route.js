@@ -6,6 +6,7 @@ const authController = require('../controllers/auth-controller')
 
 authRoute.post("/register",authController.register)
 authRoute.post("/login",authController.login)
+authRoute.put("/update",authenticate, authController.update)
 authRoute.get("/profile",authenticate, authController.getMe)
 
 
