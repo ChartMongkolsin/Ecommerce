@@ -28,13 +28,13 @@ function Navbar() {
         },
         {
             id: 3,
-            name: "About",
-            link: "/#about",
+            name: "Detail",
+            link: "detail",
         },
         {
             id: 4,
-            name: "Blogs",
-            link: "/#blogs",
+            name: "Contact",
+            link: "/#contact",
         },
     ]
     return (

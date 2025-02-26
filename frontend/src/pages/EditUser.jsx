@@ -51,8 +51,8 @@ export default function EditUser() {
     }
 
     return (
-        <div>
-            <div className="hero bg-base-200 min-h-screen">
+        <div className=''>
+            <div className="hero bg-base-200 min-h-screen  dark:bg-gray-900 dark:text-white duration-200 ">
                 <form c
                     onSubmit={hdlUpdate} className='flex flex-col gap-3 p-4 pt-10'>
                     <h1 className='text-red-700 text-3xl uppercase text-center '>Upadte Your Profile</h1>

@@ -6,6 +6,9 @@ const authRoute = require('./routes/auth-route')
 const authenticate = require('./middleware/authenticate')
 const notFound = require('./middleware/not-found')
 const errorMiddleware = require('./middleware/error-middleware')
+const postRoute = require('./routes/product-route')
+
+
 
 const app = express()
 
@@ -21,9 +24,7 @@ app.use("/payment",(req,res)=>{
 app.use("/order",(req,res)=>{
     res.send('Order running')
 })
-app.use("/product",(req,res)=>{
-    res.send('Product running')
-})
+app.use("/product",postRoute)
 
 app.use(errorMiddleware)
 app.use(notFound)

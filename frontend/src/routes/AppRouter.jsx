@@ -8,6 +8,7 @@ import Hero from "../components/hero/Hero";
 import Footer from "../components/footer/Footer";
 import EditUser from "../pages/EditUser";
 import Shop from "../pages/Shop";
+import Detail from "../pages/Detail";
 
 
 const guestRouter = createBrowserRouter([
@@ -33,6 +34,7 @@ const userRouter = createBrowserRouter([
             {path : 'login', element : <Login/>},
             {path : 'edituser', element : <EditUser/>},
             {path : 'shop', element : <Shop/>},
+            {path : 'detail', element : <Detail/>},
             {path : '*', element : <Navigate to= "/"/>}
         ]
     },
