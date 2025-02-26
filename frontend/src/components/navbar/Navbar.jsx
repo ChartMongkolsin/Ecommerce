@@ -28,8 +28,8 @@ function Navbar() {
         },
         {
             id: 3,
-            name: "Detail",
-            link: "detail",
+            name: "Product",
+            link: "product",
         },
         {
             id: 4,

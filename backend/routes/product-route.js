@@ -5,10 +5,10 @@ const postController = require('../controllers/post-controller')
 const upload = require('../middleware/upload')
 
 
-postRoute.post("/",upload.single('image'), postController.upload)
-postRoute.post("/login",(req,res)=>{})
-postRoute.put("/upload",upload.single('image'), postController.upload)
-postRoute.get("/profile", (req,res)=>{})
+postRoute.get("/", authenticate, postController.getAllProduct)
+postRoute.put("/:id",upload.single('image'), authenticate, postController.editProduct)
+postRoute.post("/",upload.single('image'),authenticate, postController.createProduct)
+postRoute.delete("/:id",authenticate, postController.deleteProduct)
 
 
 

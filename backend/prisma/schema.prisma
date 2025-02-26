@@ -19,23 +19,24 @@ enum Role {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  firstName      String
-  lastName      String
-  email     String   @unique
+  id        Int       @id @default(autoincrement())
+  firstName String
+  lastName  String
+  email     String    @unique
   password  String
-  role      Role     @default(USER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  role      Role      @default(USER)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   cart      Cart[]
   order     Order[]
+  product   Product[]
 
   @@map("user")
 }
 
 model Order {
   id              Int         @id @default(autoincrement())
-  user            String
+  name            String
   shippingAddress String
   isPaid          String
   paidAt          DateTime
@@ -44,8 +45,8 @@ model Order {
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
   orderitem       OrderItem[]
+  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId          Int
-  User            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("order")
 }
@@ -76,6 +77,8 @@ model Product {
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
   cartitem     CartItem[]
+  User         User?      @relation(fields: [userId], references: [id])
+  userId       Int?
 
   @@map("product")
 }
