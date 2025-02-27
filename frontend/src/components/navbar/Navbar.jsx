@@ -92,12 +92,17 @@ function Navbar() {
                                             <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
                                                 <li><a><Link to="/edituser">
                                                     <h1>Edit User</h1>
-                                                    
+
                                                 </Link></a></li>
                                                 <li><a><Link to="/allproduct">
                                                     <h1>All Product List</h1>
-                                                    
+
                                                 </Link></a></li>
+                                                <li><a><Link to="/createproduct">
+                                                    <h1>Create Product</h1>
+
+                                                </Link></a></li>
+
                                                 <li
                                                     onClick={logout}><a>Logout</a></li>
                                             </ul>
