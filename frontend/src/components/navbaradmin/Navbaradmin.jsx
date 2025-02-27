@@ -1,20 +1,16 @@
 import React from 'react'
 import { IoMdSearch } from "react-icons/io"
 import { FaCaretDown, FaCartShopping } from "react-icons/fa6"
-import Darkmode from '../navbar/Darkmode';
+import Darkmode from '../../components/navbar/Darkmode';
 import { Link } from 'react-router-dom';
 import { Profile } from '../../icons';
 import useUserStore from '../../stores/userstore';
 import EditUser from '../../pages/EditUser';
 
-
-
-function Navbar() {
-
+function Navbaradmin() {
     const user = useUserStore(state => state.user)
     const logout = useUserStore(state => state.logout)
     console.log(user)
-
     const MenuLinks = [
         {
             id: 1,
@@ -28,8 +24,8 @@ function Navbar() {
         },
         {
             id: 3,
-            name: "Product",
-            link: "product",
+            name: "AllProduct",
+            link: "allproduct",
         },
         {
             id: 4,
@@ -38,6 +34,7 @@ function Navbar() {
         },
     ]
     return (
+
         <div className='bg-white dark:bg-gray-900 dark:text-white duration-200 relative z-40'>
             <div className='py-4'>
                 <div className='container flex justify-between'>
@@ -92,19 +89,14 @@ function Navbar() {
                                             <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
                                                 <li><a><Link to="/edituser">
                                                     <h1>Edit User</h1>
-                                                    
-                                                </Link></a></li>
-                                                <li><a><Link to="/allproduct">
-                                                    <h1>All Product List</h1>
-                                                    
                                                 </Link></a></li>
                                                 <li
                                                     onClick={logout}><a>Logout</a></li>
                                             </ul>
                                         </div>
                                         : <div className='flex gap-2'>
-                                            {/* ? หลังถ้ามี ถ้าไม่มี */}
                                             <Link to="/login">
+                                                {/* ? หลังถ้ามี ถ้าไม่มี */}
                                                 <h1>LOGIN</h1>
                                             </Link>
                                         </div>}
@@ -123,4 +115,5 @@ function Navbar() {
     );
 }
 
-export default Navbar
+
+export default Navbaradmin

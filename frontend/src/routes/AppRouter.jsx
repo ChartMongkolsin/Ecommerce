@@ -9,6 +9,9 @@ import Footer from "../components/footer/Footer";
 import EditUser from "../pages/EditUser";
 import Shop from "../pages/Shop";
 import ProductForm from "../pages/ProductForm";
+import Navbaradmin from "../components/navbaradmin/Navbaradmin";
+import AllProduct from "../pages/admin/AllProduct";
+import CreateProduct from "../pages/admin/CreateProduct";
 
 
 const guestRouter = createBrowserRouter([
@@ -20,6 +23,8 @@ const guestRouter = createBrowserRouter([
 const adminRouter = createBrowserRouter([
     {path : '/', element: <App/>},
     {path : 'login', element: <Login/>},
+    {path : 'allproduct', element: <AllProduct/>},
+    {path : 'createproduct', element: <CreateProduct/>},
     {path : '/', element: <Navigator to="/"/> }
 ])
 

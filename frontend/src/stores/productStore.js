@@ -2,12 +2,12 @@ import axios from "axios";
 import { create } from "zustand";
 
 /* ต้องตรงกับที่เรียกใช้ state ที่เรียกใช้ */
-const usePostStore = create((set, get) => ({
-    posts: [],
+const useProductStore = create((set, get) => ({
+    products: [],
     currentPost: null,
     loading: false,
     createPost: async (body, token, user) => {
-        const rs = await axios.post('http://localhost:8889/post', body, {
+        const rs = await axios.post('http://localhost:8889/product', body, {
             headers: { Authorization: `Bearer ${token}` }
         })
         console.log(rs.data)
@@ -19,11 +19,11 @@ const usePostStore = create((set, get) => ({
     /* getall post axios ส่งไป backend */
     getAllPosts: async (token) => {
         set({ loading: true })
-        const rs = await axios.get('http://localhost:8889/post', {
+        const rs = await axios.get('http://localhost:8889/product', {
             headers: { Authorization: `Bearer ${token}` }
         })
         // console.log(rs)
-        set({ posts: rs.data.posts, loading: false })
+        set({ products: rs.data.posts, loading: false })
     },
 }))
-export default usePostStore
+export default useProductStore
