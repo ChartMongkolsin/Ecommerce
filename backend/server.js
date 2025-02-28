@@ -7,12 +7,14 @@ const authenticate = require('./middleware/authenticate')
 const notFound = require('./middleware/not-found')
 const errorMiddleware = require('./middleware/error-middleware')
 const postRoute = require('./routes/product-route')
+const morgan = require('morgan')
 
 
 
 const app = express()
 
 app.use(express.json())
+app.use(morgan('dev'))
 app.use(cors())
 
 

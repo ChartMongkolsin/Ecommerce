@@ -1,24 +1,40 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import useProductStore from '../../stores/productStore'
 import p1 from '../../assets/product/p-1.jpg'
 import { Link } from 'react-router'
+import axios from 'axios'
+import useUserStore from '../../stores/userstore'
+import { toast } from 'react-toastify'
+
+
 
 function AllProduct() {
-  const admin = useProductStore(state => state.getAllposts)
-  const product = [
-    {
-      id: 1,
-      image: p1,
-      name: "Earphone",
-      description: "this is new product ",
-      rating: "5.0",
-      numReveiw: "4.8",
-      price: "41",
-      countInStock: "7 pcs",
-      createdAt: "27-02-24",
-      updateAt: "28-02-24",
-    },
-  ]
+  const getAllProduct = useProductStore(state => state.getAllPosts)
+  const token = useUserStore(state => state.token)
+
+
+  const [products,setProducts] = useState(null)
+
+
+  const fetchProducts = async () => {
+    try {
+
+      const fetchproductdata = await getAllProduct(token)
+      setProducts(fetchproductdata)
+      console.log(products)
+    } catch (err) {
+      const errMsg = err.response?.data?.err || err.message
+      toast.error(errMsg)
+      console.log(errMsg)
+    }
+  }
+   console.log('products', products)
+
+
+  useEffect(() => {
+    fetchProducts()
+  }, [])
+
 
 
   return (
@@ -27,11 +43,11 @@ function AllProduct() {
 
       <div className='row mb-3'>
         <div className='col'>
-          <Link to="/Createproduct" 
+          <Link to="/Createproduct"
             className='btn btn-primary me-1'
             role="button"
           >Create Product</Link>
-          <button type="button" 
+          <button type="button"
             className='btn btn-outline-primary'>
             Refresh</button>
         </div>
@@ -56,12 +72,13 @@ function AllProduct() {
           </thead>
           <tbody>
             {
-              product.map((product, index) => {
+             products && products.map((product, index) => {
                 return (
                   <tr key={index}>
                     <td>{product.id}</td>
                     <td>{product.name}</td>
-                    <td>{product.image}</td>
+                    <td><img src={`${product.image}`} 
+                    className='object-cover w-20 h-20' alt="image" /></td>
                     <td>{product.description}</td>
                     <td>{product.rating}</td>
                     <td>{product.numReveiw}</td>
@@ -86,3 +103,4 @@ function AllProduct() {
 }
 
 export default AllProduct
+

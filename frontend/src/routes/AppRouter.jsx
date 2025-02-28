@@ -21,11 +21,20 @@ const guestRouter = createBrowserRouter([
 ])
 
 const adminRouter = createBrowserRouter([
-    {path : '/', element: <App/>},
+    {path : '/', element: <App/>,
+    children : [
+        {path : "/", element :<>
+        <Hero />
+        <Category />
+        <Footer/>
+        </> },
     {path : 'login', element: <Login/>},
+    {path : 'shop', element : <Shop/>},
     {path : 'allproduct', element: <AllProduct/>},
     {path : 'createproduct', element: <CreateProduct/>},
     {path : '/', element: <Navigator to="/"/> }
+        ],
+    }
 ])
 
 const userRouter = createBrowserRouter([

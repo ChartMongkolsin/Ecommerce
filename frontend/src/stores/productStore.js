@@ -6,14 +6,14 @@ const useProductStore = create((set, get) => ({
     products: [],
     currentPost: null,
     loading: false,
-    createPost: async (body, token, user) => {
+    createProducts: async (body, token) => {
         const rs = await axios.post('http://localhost:8889/product', body, {
             headers: { Authorization: `Bearer ${token}` }
         })
         console.log(rs.data)
         /* ยิง axios แค่ครั้งเดียว */
         set(state => ({
-            posts: [{ ...rs.data.result, user, name: [], description: [] }, ...state.posts]
+            products: [{ ...rs.data.result, name: [], desc: [], image: [] }, ...state.products]
         }))
     },
     /* getall post axios ส่งไป backend */
@@ -23,7 +23,9 @@ const useProductStore = create((set, get) => ({
             headers: { Authorization: `Bearer ${token}` }
         })
         // console.log(rs)
-        set({ products: rs.data.posts, loading: false })
+        set({ products: rs.data.product, loading: false })
+        console.log(rs.data.product)
+        return rs.data.product
     },
 }))
 export default useProductStore

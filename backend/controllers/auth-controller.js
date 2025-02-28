@@ -93,14 +93,14 @@ module.exports.update = async (req, res, next) => {
 
 
         const upadateUser = await prisma.user.update({
-            where: {id} , 
-            data: { 
+            where: { id },
+            data: {
                 email,
                 firstName,
                 lastName,
-              },
-            });
-        res.json({ msg: "Update", user : upadateUser })
+            },
+        });
+        res.json({ msg: "Update", user: upadateUser })
     } catch (error) {
         next(error)
     }
@@ -109,6 +109,17 @@ module.exports.update = async (req, res, next) => {
 
 module.exports.getMe = async (req, res, next) => {
     try {
+        const userId = req.user?.id;
+        console.log(req.user)
+        const user = await prisma.user.findUnique({
+            where: { id: userId },
+            select: { id: true, firstName: true, lastName: true, email: true } // เลือกเฉพาะข้อมูลที่ต้องการ
+        });
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
         res.json({ user: req.user })
 
     } catch (error) {
