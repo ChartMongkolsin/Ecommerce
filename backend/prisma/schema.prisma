@@ -70,8 +70,8 @@ model Product {
   name         String
   image        String
   desc         String     @map("description")
-  rating       Float
-  numReview    Int
+  rating       Float?
+  numReview    Int?
   price        Decimal
   countInStock Int
   createdAt    DateTime   @default(now())
@@ -84,27 +84,24 @@ model Product {
 }
 
 model Cart {
-  id         Int      @id @default(autoincrement())
-  updatedAt  DateTime @updatedAt
-  userId     Int
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  cartItemId Int
-  cartItem   CartItem @relation(fields: [cartItemId], references: [id], onDelete: Cascade)
+  id        Int        @id @default(autoincrement())
+  updatedAt DateTime   @updatedAt
+  userId    Int        @unique
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cartItems CartItem[]
 
   @@map("cart")
 }
 
 model CartItem {
   id        Int      @id @default(autoincrement())
-  name      String
   qty       Int
-  image     String
-  price     Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  cart      Cart[]
-  productId Int
+  productId Int      @unique
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  cart      Cart?    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  cartId    Int?
 
   @@map("cartitem")
 }

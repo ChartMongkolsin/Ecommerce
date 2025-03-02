@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { IoMdSearch } from "react-icons/io"
 import { FaCaretDown, FaCartShopping } from "react-icons/fa6"
 import Darkmode from '../navbar/Darkmode';
@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import { Profile } from '../../icons';
 import useUserStore from '../../stores/userstore';
 import EditUser from '../../pages/EditUser';
+import CartModel from '../../pages/CartModel';
+import useCartStore from '../../stores/cartStore';
 
 
 
@@ -13,7 +15,26 @@ function Navbar() {
 
     const user = useUserStore(state => state.user)
     const logout = useUserStore(state => state.logout)
+    const token = useUserStore(state => state.token)
+    const carts = useCartStore(state=> state.carts)
+    const getAllCart = useCartStore(state=>state.getAllCart)
+
+     // const [isCartOpen, setIsCartOpen] = useState(false)
+
+    console.log(carts)
     console.log(user)
+
+
+    const [cart, setCart] = useState(0);
+
+    const handleAddToCart = () => {
+        setCart(cart + 1);
+      };
+
+      useEffect(()=>{
+        getAllCart(token)
+      },[])
+
 
     const MenuLinks = [
         {
@@ -38,7 +59,7 @@ function Navbar() {
         },
     ]
     return (
-        <div className='bg-white dark:bg-gray-900 dark:text-white duration-200 relative z-40'>
+        <div className='bg-white dark:bg-gray-900 dark:text-white duration-200 '>
             <div className='py-4'>
                 <div className='container flex justify-between'>
                     {/* LOGO  AND LINKS SECTION*/}
@@ -76,12 +97,20 @@ function Navbar() {
                             {/* Search Bar Section */}
                         </div>
                         {/* Order-button Section */}
-                        <button className='relative p-3'>
-                            <FaCartShopping className='text-xl text-gray-600 dark:text-gray-400' />
-                            <div className='w-4 h-4 bg-red-500 text-white rounded-full absolute top-0 right-0 
-                                flex items-center justify-center text-xs'>0
-                            </div>
-                        </button>
+                        <div className='flex  text-white items-center justify-center text-xs'>
+
+                            <button
+                                className='relative p-3'>
+                                <FaCartShopping className='text-xl text-gray-600 dark:text-gray-400' 
+                                />
+                                <span 
+                                className='absolute -top-0 -right-0 bg-red-600 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center'>
+                                    {
+                                        carts.length
+                                    }
+                                </span>
+                            </button>
+                        </div>
                         <button className='relative p-3 cursor-pointer group'>
                             <div className="dropdown dropdown-bottom">
                                 <div tabIndex={0} role="button" className="inline-block px-4 font-semibold text-gray-500 hover:text-black dark:hover:text-white duration-200">
@@ -121,8 +150,12 @@ function Navbar() {
                             <Darkmode />
                         </div>
                     </div>
+
                 </div>
+
             </div>
+
+
 
         </div>
     );

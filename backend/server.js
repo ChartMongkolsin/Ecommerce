@@ -8,6 +8,7 @@ const notFound = require('./middleware/not-found')
 const errorMiddleware = require('./middleware/error-middleware')
 const postRoute = require('./routes/product-route')
 const morgan = require('morgan')
+const cartRoute = require('./routes/cart-route')
 
 
 
@@ -23,6 +24,11 @@ app.use("/auth",authRoute)
 app.use("/payment",(req,res)=>{
     res.send('Payment running')
 })
+
+app.use("/cart",cartRoute)
+
+
+
 app.use("/order",(req,res)=>{
     res.send('Order running')
 })

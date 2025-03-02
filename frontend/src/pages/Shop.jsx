@@ -4,204 +4,98 @@ import p2 from "../assets/product/p-2.jpg"
 import p3 from "../assets/product/p-3.jpg"
 import useProductStore from '../stores/productStore'
 import useUserStore from '../stores/userstore'
+import CartModel from './CartModel'
+import useCartStore from '../stores/cartStore'
 
 
 
 
 
 function Shop() {
+    const allProducts = useProductStore(state=>state.products)
     const getAllProduct = useProductStore(state => state.getAllPosts)
     const token = useUserStore(state => state.token)
-    const [products,setProducts] = useState(null)
+    const createCartItems = useCartStore(state=> state.createCartItems)
+
+    const [products, setProducts] = useState([])
+    
+        // const addToCart = () => {
+        //     const existingProduct = cart.find((item) => item.id === products.id);
+        //     if (existingProduct) {
+        //         setCart(
+        //             cart.map((item) => item.id === products.id ? { ...item, quantity: item.quantity + 1 } : item)
+    
+        //         );
+        //     } else {
+        //         setCart([...cart, { ...products, quantity: 1 }]);
+        //     }
+        // };
+    
+        // const removeFromCart = (productsId) => {
+        //     setCart(cart.filter((item) => item.id !== productsId));
+    
+        // };
+    
+        // const updateQuantity = (productsId, delta) => {
+        //     setCart(cart.map((item) => item.id === productsId ? { ...item, quantity: Math.max(item.quantity + delta, 1) } : item)
+        //     );
+        // };
+        
+        // const total = cart.reduce((sum,item)=> sum + item.price * item.quantity, 0);
+
+
 
     const fetchProducts = async () => {
         try {
-    
-          const fetchproductdata = await getAllProduct(token)
-          setProducts(fetchproductdata)
-          console.log(products)
+
+            const fetchproductdata = await getAllProduct(token)
+            setProducts(fetchproductdata)
+            console.log(products)
         } catch (err) {
-          const errMsg = err.response?.data?.err || err.message
-          toast.error(errMsg)
-          console.log(errMsg)
+            const errMsg = err.response?.data?.err || err.message
+            toast.error(errMsg)
+            console.log(errMsg)
         }
-      }
-       console.log('products', products)
-    
-    
-      useEffect(() => {
+    }
+    console.log('products', products)
+
+
+    useEffect(() => {
         fetchProducts()
-      }, [])
-    
-
-    const ProductsData = [
-        {
-            id: 1,
-            img: p1,
-            title: "Earphone",
-            rating: "5.0",
-            color: "white",
-            aosDelay: "0",
-        },
-        {
-            id: 2,
-            img: p2,
-            title: "XXX Watch",
-            rating: "4.0",
-            color: "Red",
-            aosDelay: "200",
-        },
-        {
-            id: 3,
-            img: p3,
-            title: "Earphone",
-            rating: "4.7",
-            color: "Brown",
-            aosDelay: "200",
-        },
-        {
-            id: 1,
-            img: p1,
-            title: "Earphone",
-            rating: "5.0",
-            color: "white",
-            aosDelay: "0",
-        },
-        {
-            id: 2,
-            img: p2,
-            title: "XXX Watch",
-            rating: "4.0",
-            color: "Red",
-            aosDelay: "200",
-        },
-        {
-            id: 3,
-            img: p3,
-            title: "Earphone",
-            rating: "4.7",
-            color: "Brown",
-            aosDelay: "200",
-        },
-        {
-            id: 1,
-            img: p1,
-            title: "Earphone",
-            rating: "5.0",
-            color: "white",
-            aosDelay: "0",
-        },
-        {
-            id: 2,
-            img: p2,
-            title: "XXX Watch",
-            rating: "4.0",
-            color: "Red",
-            aosDelay: "200",
-        },
-        {
-            id: 3,
-            img: p3,
-            title: "Earphone",
-            rating: "4.7",
-            color: "Brown",
-            aosDelay: "200",
-        },
-        {
-            id: 1,
-            img: p1,
-            title: "Earphone",
-            rating: "5.0",
-            color: "white",
-            aosDelay: "0",
-        },
-        {
-            id: 2,
-            img: p2,
-            title: "XXX Watch",
-            rating: "4.0",
-            color: "Red",
-            aosDelay: "200",
-        },
-        {
-            id: 3,
-            img: p3,
-            title: "Earphone",
-            rating: "4.7",
-            color: "Brown",
-            aosDelay: "200",
-        },
-        {
-            id: 1,
-            img: p1,
-            title: "Earphone",
-            rating: "5.0",
-            color: "white",
-            aosDelay: "0",
-        },
-        {
-            id: 2,
-            img: p2,
-            title: "XXX Watch",
-            rating: "4.0",
-            color: "Red",
-            aosDelay: "200",
-        },
-        {
-            id: 3,
-            img: p3,
-            title: "Earphone",
-            rating: "4.7",
-            color: "Brown",
-            aosDelay: "200",
-        },
-        {
-            id: 1,
-            img: p1,
-            title: "Earphone",
-            rating: "5.0",
-            color: "white",
-            aosDelay: "0",
-        },
-        {
-            id: 2,
-            img: p2,
-            title: "XXX Watch",
-            rating: "4.0",
-            color: "Red",
-            aosDelay: "200",
-        },
+    }, [])
 
 
-
-
-    ]
     return (
-        <div className='px-6 bg-white dark:bg-gray-900 dark:text-white duration-200'>
-            <div className='grid grid-cols-1 sm:grid-cols-3 
-                    md:grid-cols-4 lg:grid-cols-5 place-items-center gap-5 '>
+        <div className=' bg-white dark:bg-gray-900 dark:text-white duration-200 container'>
+            <div className='grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-5 '>
                 {/* Body Section */}
                 {/* Card section */}
                 {
-                    products && products.map((product,index) => (
-                        <div className="card bg-base-100 w-50 shadow-xl ">
-                            <figure>
-                                <img
-                                    src={product.image}
-                                    className='w-45 h-45 object-contain'
-                                    alt="image" />
-                            </figure>
-                            <div className="card-body">
-                                <h2 className="card-title">{product.name}</h2>
-                                <div className="card-actions justify-end">
-                                    <button className="btn btn-primary w-20">Buy Now</button>
+                    allProducts.length > 0 && allProducts.map((product, index) => (
+                        /* Product Image */
+                        <div key={index}>
+                            <div className="card bg-base-100 w-96 shadow-sm flex">
+                                    <img
+                                        src={product.image} className="w-full h-full object-cover rounded-xl overflow-hidden"
+                                        alt={product.name}
+                                    />
+                                <div className="card-body gap-2  dark:text-black ">
+                                    <h2 className="card-title">{product.name}</h2>
+                                    <p>{product.desc}</p>
+                                    <p>{product.price}$</p>
+                                    <div className="card-actions">
+                                        <button className="btn btn-primary"
+                                        onClick={()=>createCartItems(product.id,token)}
+                                        >Buy Now</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     ))}
 
+
             </div>
-        </div>
+        </div >
     )
 }
 

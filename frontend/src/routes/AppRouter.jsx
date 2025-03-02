@@ -12,6 +12,7 @@ import ProductForm from "../pages/ProductForm";
 import Navbaradmin from "../components/navbaradmin/Navbaradmin";
 import AllProduct from "../pages/admin/AllProduct";
 import CreateProduct from "../pages/admin/CreateProduct";
+import CartModel from "../pages/CartModel";
 
 
 const guestRouter = createBrowserRouter([
@@ -32,6 +33,7 @@ const adminRouter = createBrowserRouter([
     {path : 'shop', element : <Shop/>},
     {path : 'allproduct', element: <AllProduct/>},
     {path : 'createproduct', element: <CreateProduct/>},
+    {path : 'cartmodel', element: <CartModel/>},
     {path : '/', element: <Navigator to="/"/> }
         ],
     }
@@ -49,6 +51,7 @@ const userRouter = createBrowserRouter([
             {path : 'edituser', element : <EditUser/>},
             {path : 'shop', element : <Shop/>},
             {path : 'product', element : <ProductForm/>},
+            {path : 'cartmodel', element: <CartModel/>},
             {path : '*', element : <Navigate to= "/"/>}
         ]
     },

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { IoMdSearch } from "react-icons/io"
 import { FaCaretDown, FaCartShopping } from "react-icons/fa6"
 import Darkmode from '../../components/navbar/Darkmode';
@@ -10,6 +10,47 @@ import EditUser from '../../pages/EditUser';
 function Navbaradmin() {
     const user = useUserStore(state => state.user)
     const logout = useUserStore(state => state.logout)
+
+    const [cart, setCart] = useState([])
+
+    const addToCart = (product) => {
+        const existingProduct = cart.find((item) => item.id === product.id);
+        if (existingProduct) {
+            setCart(
+                cart.map((item) => item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item)
+
+            );
+        } else {
+            setCart([...cart, { ...product, quantity: 1 }]);
+        }
+    };
+
+    const removeFromCart = (productId) => {
+        setCart(cart.filter((item) => item.id !== productId));
+
+    };
+
+    const updateQuantity = (productId, delta) => {
+        setCart(cart.map((item) => item.id === productId ? { ...item, quantity: Math.max(item.quantity + delta, 1) } : item)
+        );
+    };
+    
+    const total = cart.reduce((sum,item)=> sum + item.price * item.quantity, 0);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     console.log(user)
     const MenuLinks = [
         {

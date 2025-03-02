@@ -27,6 +27,7 @@ module.exports.register = async (req, res, next) => {
             createError(409, `Already have this ${email}`)
         }
 
+
         // create user in db
         const hashedPassword = await bcrypt.hash(password, 10)
 
