@@ -66,27 +66,27 @@ function Shop() {
 
 
     return (
-        <div className=' bg-white dark:bg-gray-900 dark:text-white duration-200 container'>
-            <div className='grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-5 '>
+        <div className=' bg-white dark:bg-gray-900 dark:text-white duration-200 container '>
+            <div className='grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5 '>
                 {/* Body Section */}
                 {/* Card section */}
                 {
                     allProducts.length > 0 && allProducts.map((product, index) => (
                         /* Product Image */
                         <div key={index}>
-                            <div className="card bg-base-100 w-96 shadow-sm flex">
+                            <div className="card w-66 shadow-sm   ">
                                     <img
-                                        src={product.image} className="w-full h-full object-cover rounded-xl overflow-hidden"
+                                        src={product.image} className="w-full h-full rounded-xl"
                                         alt={product.name}
                                     />
                                 <div className="card-body gap-2  dark:text-black ">
-                                    <h2 className="card-title">{product.name}</h2>
-                                    <p>{product.desc}</p>
-                                    <p>{product.price}$</p>
+                                    <h2 className="card-title dark:text-white">{product.name}</h2>
+                                    <p className='dark:text-white'>{product.desc}</p>
+                                    <p className='dark:text-white'>{product.price}$</p>
                                     <div className="card-actions">
-                                        <button className="btn btn-primary"
+                                        <button className="btn btn-primary bg-green-500 border-none"
                                         onClick={()=>createCartItems(product.id,token)}
-                                        >Buy Now</button>
+                                        >Add To Cart</button>
                                     </div>
                                 </div>
                             </div>

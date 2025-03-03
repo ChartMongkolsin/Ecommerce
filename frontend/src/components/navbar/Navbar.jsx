@@ -8,18 +8,23 @@ import useUserStore from '../../stores/userstore';
 import EditUser from '../../pages/EditUser';
 import CartModel from '../../pages/CartModel';
 import useCartStore from '../../stores/cartStore';
+import useProductStore from '../../stores/productStore';
 
 
 
 function Navbar() {
-
+    const allProducts = useProductStore(state => state.products)
     const user = useUserStore(state => state.user)
     const logout = useUserStore(state => state.logout)
     const token = useUserStore(state => state.token)
-    const carts = useCartStore(state=> state.carts)
-    const getAllCart = useCartStore(state=>state.getAllCart)
+    const carts = useCartStore(state => state.carts)
+    const getAllCart = useCartStore(state => state.getAllCart)
 
-     // const [isCartOpen, setIsCartOpen] = useState(false)
+    console.log("first", allProducts)
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    // const [isCartOpen, setIsCartOpen] = useState(false)
 
     console.log(carts)
     console.log(user)
@@ -29,11 +34,11 @@ function Navbar() {
 
     const handleAddToCart = () => {
         setCart(cart + 1);
-      };
+    };
 
-      useEffect(()=>{
+    useEffect(() => {
         getAllCart(token)
-      },[])
+    }, [])
 
 
     const MenuLinks = [
@@ -99,17 +104,21 @@ function Navbar() {
                         {/* Order-button Section */}
                         <div className='flex  text-white items-center justify-center text-xs'>
 
+                            {/* SideBar*/}
                             <button
-                                className='relative p-3'>
-                                <FaCartShopping className='text-xl text-gray-600 dark:text-gray-400' 
+                                className='relative p-3 z-200'
+                                onClick={() => setIsOpen(true)}
+                            >
+                                <FaCartShopping className='text-xl text-gray-600 dark:text-gray-400 '
                                 />
-                                <span 
-                                className='absolute -top-0 -right-0 bg-red-600 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center'>
+                                <span
+                                    className='absolute -top-0 -right-0 bg-red-600 text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center'>
                                     {
                                         carts.length
                                     }
                                 </span>
                             </button>
+                            {/* Sidebar */}
                         </div>
                         <button className='relative p-3 cursor-pointer group'>
                             <div className="dropdown dropdown-bottom">
@@ -154,10 +163,45 @@ function Navbar() {
                 </div>
 
             </div>
+            {/* Sidebar */}
+            <div
+                className={`fixed top-0 right-0 w-80 h-full bg-white dark:bg-gray-900 shadow-lg  transition-transform duration-300 z-50 
+                    ${isOpen ? 'translate-x-0' : 'translate-x-full '
+                    }`}
+            >
+                <div className="p-4 flex justify-between items-center border-b ">
+                    <h2 className="text-lg font-bold ">Your Cart</h2>
+                    <button onClick={() => setIsOpen(false)} className="text-red-600">✖</button>
+                </div>
 
 
+                <div className="p-4 space-y-2 ">
+                    {carts.length === 0 ? (
+                        <p className="text-gray-500">ไม่มีสินค้าในตะกร้า</p>
+                    ) : (
+                        allProducts.map((item, index) => (
+                            <div key={index} className="flex justify-between border-b p-2 flex-col z-100">
+                                <span className='dark:text-white'>{item.name}</span>
+                                <img src={item.image} alt=""
+                                    className='w-20 h-20 object-cover dark:text-white'
+                                />
+                                <span className="font-bold dark:text-white">{item.price}฿</span>
+                            </div>
+                        ))
+                    )}
+                </div>
+            </div>
+            {/* Sidebar */}
+            {isOpen && (
+                <div
+                    className="fixed inset-0 bg-black opacity-40 "
+                    onClick={() => setIsOpen(false)}
+                >
+                </div>
+            )}
 
-        </div>
+
+        </div >
     );
 }
 

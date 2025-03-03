@@ -13,6 +13,7 @@ import Navbaradmin from "../components/navbaradmin/Navbaradmin";
 import AllProduct from "../pages/admin/AllProduct";
 import CreateProduct from "../pages/admin/CreateProduct";
 import CartModel from "../pages/CartModel";
+import EditProduct from "../pages/admin/EditProduct";
 
 
 const guestRouter = createBrowserRouter([
@@ -32,6 +33,7 @@ const adminRouter = createBrowserRouter([
     {path : 'login', element: <Login/>},
     {path : 'shop', element : <Shop/>},
     {path : 'allproduct', element: <AllProduct/>},
+    {path : 'editproduct', element: <EditProduct/>},
     {path : 'createproduct', element: <CreateProduct/>},
     {path : 'cartmodel', element: <CartModel/>},
     {path : '/', element: <Navigator to="/"/> }
@@ -45,13 +47,14 @@ const userRouter = createBrowserRouter([
             {path : "/", element :<>
             <Hero />
             <Category />
+            <CartModel/>
             <Footer/>
             </> },
             {path : 'login', element : <Login/>},
             {path : 'edituser', element : <EditUser/>},
             {path : 'shop', element : <Shop/>},
+            {path : 'allproduct', element: <AllProduct/>},
             {path : 'product', element : <ProductForm/>},
-            {path : 'cartmodel', element: <CartModel/>},
             {path : '*', element : <Navigate to= "/"/>}
         ]
     },

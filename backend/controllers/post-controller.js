@@ -13,10 +13,10 @@ module.exports.getAllProduct = async (req, res, next) => {
     try {
         const rs = await prisma.product.findMany({
 
-            
+
             // เรียงลำดับ
             // orderBy: { createdAt: 'desc' },
-            
+
             // include: {
             //     user: {
             //             select: {
@@ -57,11 +57,11 @@ module.exports.deleteProduct = async (req, res, next) => {
         // if (req.user?.id !== productData.userId) {
         //     createError(400, "Cannot Delete")
         // }
-        
+
         const rs = await prisma.product.delete({
             where: { id: +id }
         })
-        res.json({msg : `Delete post id=${id}`, deletedPost : productData})
+        res.json({ msg: `Delete post id=${id}`, deletedPost: productData })
     } catch (error) {
         next(error)
     }
@@ -98,9 +98,9 @@ module.exports.createProduct = async (req, res, next) => {
             countInStock: +countInStock,
             image: uploadResult.secure_url || ''
         }
-            const rs = await prisma.product.create({data:data})
+        const rs = await prisma.product.create({ data: data })
 
-        res.json({msg: "File uploaded successfully", data: rs  })
+        res.json({ msg: "File uploaded successfully", data: rs })
     } catch (error) {
         next(error)
     }
@@ -109,38 +109,64 @@ module.exports.createProduct = async (req, res, next) => {
 
 module.exports.editProduct = async (req, res, next) => {
     try {
-        const { id } = req.params
-        const { name, description, removePic } = req.body
-        console.log(req.body)
+        const { id } = req.params;
+        const { name, description, countInStock, rating, numReview, price, removePic } = req.body;
 
-        const postData = await prisma.post.findUnique({ where: { id: +id } })
-        if (!postData || req.user.id !== postData.userId) {
-            createError(401, "Cannot Update")
+        // Find the existing product
+        const productData = await prisma.product.findUnique({ where: { id: +id } });
+        if (!productData) {
+            return res.status(404).json({ message: "Product not found" });
         }
-        const haveFile = !!req.file
-        let uploadResult = {}
-        if (haveFile) {
+
+        // Check if the user has permission to update (if needed)
+        // if (req.user.id !== productData.userId) {
+        //     createError(400, "Cannot Update" );
+        // }
+
+        let uploadResult = {};
+
+        if (req.file) {
+            // Upload new image
             uploadResult = await cloudinary.uploader.upload(req.file.path, {
-                public_id: path.parse(req.file.path).name
-            })
-            fs.unlink(req.file.path)
-            if (postData.image) {
-                cloudinary.uploader.destroy(getPublicId(postData.image))
-            }
+                public_id: path.parse(req.file.path).name,
+            });
+
         }
-        let data = haveFile
-            ? { message, image: uploadResult.secure_url, userId: req.user.id }
-            : { message, userId: req.user.id, image: removePic ? null : postData.image }
 
-        //remove pic
+        // Prepare update data
+        const updateData = {
+            name,
+            desc: description,
+            rating: 0,  // Should this be 0? If not, use `rating: +rating`
+            numReview: +numReview,
+            price: +price,
+            countInStock: +countInStock,
+            image: uploadResult.secure_url || productData.image,
+            userId : req.user.id // Keep existing image if no new one is uploaded
+        };
 
-        const rs = await prisma.post.update({
+        // Remove image if requested
+        if (removePic && productData.image) {
+            updateData.image = ""; // Clear the image field
+        }
+
+        // Update product
+        const updatedProduct = await prisma.product.update({
             where: { id: +id },
-            data: data
-        })
-        res.json({ rs })
+            data: {
+                name,
+                desc: description,
+                rating: 0,  // Should this be 0? If not, use `rating: +rating`
+                numReview: +numReview,
+                price: +price,
+                countInStock: +countInStock,
+                image: uploadResult.secure_url || productData.image, 
+                // Keep existing image if no new one is uploaded
+            }
+        });
 
+        res.json({ msg: "Update successful", product: updatedProduct });
     } catch (error) {
-        next(error)
+        next(error);
     }
-}
+};
