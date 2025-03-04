@@ -9,6 +9,7 @@ const errorMiddleware = require('./middleware/error-middleware')
 const productRoute = require('./routes/product-route')
 const morgan = require('morgan')
 const cartRoute = require('./routes/cart-route')
+const orderRoute = require('./routes/order-route')
 
 
 
@@ -28,9 +29,7 @@ app.use("/payment",(req,res)=>{
 app.use("/cart",cartRoute)
 
 
-app.use("/order",(req,res)=>{
-    res.send('Order running')
-})
+app.use("/order",orderRoute)
 app.use("/product",productRoute)
 
 app.use(errorMiddleware)

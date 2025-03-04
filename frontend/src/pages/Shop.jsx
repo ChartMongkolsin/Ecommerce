@@ -6,6 +6,8 @@ import useProductStore from '../stores/productStore'
 import useUserStore from '../stores/userstore'
 import CartModel from './CartModel'
 import useCartStore from '../stores/cartStore'
+import { Outlet } from 'react-router'
+import Footer from '../components/footer/Footer'
 
 
 
@@ -93,7 +95,7 @@ function Shop() {
                         </div>
                     ))}
 
-
+                <Footer/>
             </div>
         </div >
     )

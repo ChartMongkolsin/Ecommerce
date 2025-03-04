@@ -26,6 +26,14 @@ const useCartStore = create((set, get) => ({
         set({ carts: rs.data.result, loading: false })
         console.log(rs.data.result)
         return rs.data.result
-    }
+    },
+    deleteCart: async (cartId, token) => {
+        const rs = await axios.delete(`http://localhost:8889/cart/${cartId}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+        set(state => ({
+            carts: state.cart.filter(cart => cart.id !== cartId)
+        }))
+    },
 }))
 export default useCartStore

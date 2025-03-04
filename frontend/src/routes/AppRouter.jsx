@@ -8,12 +8,14 @@ import Hero from "../components/hero/Hero";
 import Footer from "../components/footer/Footer";
 import EditUser from "../pages/EditUser";
 import Shop from "../pages/Shop";
-import ProductForm from "../pages/ProductForm";
+import ProductForm from "../pages/Checkout";
 import Navbaradmin from "../components/navbaradmin/Navbaradmin";
 import AllProduct from "../pages/admin/AllProduct";
 import CreateProduct from "../pages/admin/CreateProduct";
 import CartModel from "../pages/CartModel";
 import EditProduct from "../pages/admin/EditProduct";
+import Checkout from "../pages/Checkout";
+import Contact from "../pages/Contact";
 
 
 const guestRouter = createBrowserRouter([
@@ -28,14 +30,14 @@ const adminRouter = createBrowserRouter([
         {path : "/", element :<>
         <Hero />
         <Category />
-        <Footer/>
         </> },
     {path : 'login', element: <Login/>},
     {path : 'shop', element : <Shop/>},
     {path : 'allproduct', element: <AllProduct/>},
     {path : 'editproduct', element: <EditProduct/>},
     {path : 'createproduct', element: <CreateProduct/>},
-    {path : 'cartmodel', element: <CartModel/>},
+    {path : 'checkout', element : <Checkout/>},
+    {path : 'contact', element : <Contact/>},
     {path : '/', element: <Navigator to="/"/> }
         ],
     }
@@ -54,7 +56,8 @@ const userRouter = createBrowserRouter([
             {path : 'edituser', element : <EditUser/>},
             {path : 'shop', element : <Shop/>},
             {path : 'allproduct', element: <AllProduct/>},
-            {path : 'product', element : <ProductForm/>},
+            {path : 'checkout', element : <Checkout/>},
+            {path : 'contact', element : <Contact/>},
             {path : '*', element : <Navigate to= "/"/>}
         ]
     },

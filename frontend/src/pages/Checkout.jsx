@@ -1,7 +1,7 @@
 import React from 'react'
 import addPicture from "../assets/product/add.png"
 
-function ProductForm() {
+function Checkout() {
   return (
     <div className=' place-items-center grid w-full h-screen'>
       <div className='bg-white w-[300px] rounded-lg p-4 '>
@@ -17,4 +17,4 @@ function ProductForm() {
   )
 }
 
-export default ProductForm
+export default Checkout

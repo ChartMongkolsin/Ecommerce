@@ -16,8 +16,6 @@ module.exports.createCartItems = async (req, res, next) => {
             where: { userId },
 
         });
-        let cart
-
         const findProduct = await prisma.product.findUnique({ where: { id: productId } })
         if (!findUser) {
              cart = await prisma.cart.create({ data: {user:{
