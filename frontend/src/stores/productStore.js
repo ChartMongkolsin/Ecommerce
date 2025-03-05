@@ -4,6 +4,7 @@ import { persist } from "zustand/middleware";
 /* ต้องตรงกับที่เรียกใช้ state ที่เรียกใช้ */
 const useProductStore = create(persist((set, get) => ({
     products: [],
+    carts:[],
     product:null,
     currentPost: null,
     loading: false,
@@ -14,7 +15,8 @@ const useProductStore = create(persist((set, get) => ({
         console.log(rs.data)
         /* ยิง axios แค่ครั้งเดียว */
         set(state => ({
-            products: [{ ...rs.data.result, name: [], desc: [], image: [] }, ...state.products]
+            products: [{ ...rs.data.result, name: [], desc: [], image: [] }, ...state.products],
+            carts: [{ ...rs.data.result, name: [], desc: [], image: [] }, ...state.carts]
         }))
     },
     /* getall post axios ส่งไป backend */

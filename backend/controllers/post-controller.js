@@ -68,9 +68,9 @@ module.exports.deleteProduct = async (req, res, next) => {
 }
 module.exports.createProduct = async (req, res, next) => {
     try {
-        const { name, desc, rating, numReview, price, countInStock } = req.body;
+        const { name, desc, quantity, price } = req.body;
         const haveFile = !!req.file
-        let uploadResult = {}
+        let uploagdResult = {}
 
 
         console.log(req.body)
@@ -92,10 +92,8 @@ module.exports.createProduct = async (req, res, next) => {
         const data = {
             name,
             desc,
-            rating: 0,
-            numReview: +numReview,
+            quantity: +quantity,
             price: +price,
-            countInStock: +countInStock,
             image: uploadResult.secure_url || ''
         }
         const rs = await prisma.product.create({ data: data })
@@ -110,7 +108,7 @@ module.exports.createProduct = async (req, res, next) => {
 module.exports.editProduct = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const { name, description, countInStock, rating, numReview, price, removePic } = req.body;
+        const { name, description, quantity, price, removePic } = req.body;
 
         // Find the existing product
         const productData = await prisma.product.findUnique({ where: { id: +id } });
@@ -137,10 +135,8 @@ module.exports.editProduct = async (req, res, next) => {
         const updateData = {
             name,
             desc: description,
-            rating: 0,  // Should this be 0? If not, use `rating: +rating`
-            numReview: +numReview,
+            quantity: +quantity,  // 
             price: +price,
-            countInStock: +countInStock,
             image: uploadResult.secure_url || productData.image,
             userId : req.user.id // Keep existing image if no new one is uploaded
         };
@@ -156,10 +152,8 @@ module.exports.editProduct = async (req, res, next) => {
             data: {
                 name,
                 desc: description,
-                rating: 0,  // Should this be 0? If not, use `rating: +rating`
-                numReview: +numReview,
+                quantity: +quantity,  // Should this be 0? If not, use `rating: +rating`
                 price: +price,
-                countInStock: +countInStock,
                 image: uploadResult.secure_url || productData.image, 
                 // Keep existing image if no new one is uploaded
             }

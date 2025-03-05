@@ -26,14 +26,13 @@ const hdlChange = (e) =>{
         setLoading(true)
         console.log(input)
         try {
-            const { name, desc, price, numReview, countInStock } = input
+            const { name, desc, price, quantity } = input
 
             const body = new FormData();
             body.append('name', name);
             body.append('desc', desc);
             body.append('price', price);
-            body.append('countInStock', countInStock);
-            body.append('numReview', numReview);
+            body.append('quantity', quantity);
 
             if(file) {
                 body.append('image', file)
@@ -92,28 +91,17 @@ const hdlChange = (e) =>{
                             </div>
                         </div>
                         <div className='row mb-3'>
-                            <label className='col-sm-4 col-form-label'>NumReview</label>
+                            <label className='col-sm-4 col-form-label'>Quantity</label>
                             <div className='col-sm-8'>
                                 <input type="number" 
-                                name="numReview" className='bg-red-300 form-control w-full' step="0.01" min="1" 
-                                value={input.numReview}
+                                name="quantity" className='bg-red-300 form-control w-full' step="0.01" min="1" 
+                                value={input.quantity}
                                 onChange={hdlChange}
                                 />
                                 <span className='text-danger'></span>
                             </div>
                         </div>
-                        <div className='row mb-3'>
-                            <label className='col-sm-4 col-form-label'>CountInStock</label>
-                            <div className='col-sm-8'>
-                                <input type="number" 
-                                name="countInStock" 
-                                className='bg-red-300 form-control w-full' step="0.01" min="1"
-                                value={input.countInStock}
-                                onChange={hdlChange}
-                                />
-                                <span className='text-danger'></span>
-                            </div>
-                        </div>
+
                         <div className='row mb-3'>
                             <label className='col-sm-4 col-form-label'>Image</label>
                             <div className='col-sm-8'>

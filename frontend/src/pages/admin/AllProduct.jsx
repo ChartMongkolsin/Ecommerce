@@ -15,7 +15,7 @@ function AllProduct() {
   const getProduct = useProductStore(state=>state.getProduct)
 
 
-  const [products, setProducts] = useState(null)
+  // const [products, setProducts] = useState(null)
 
 
 const hdlDelete = async (id)=>{
@@ -79,10 +79,8 @@ const hdlDelete = async (id)=>{
                 <th>Name</th>
                 <th>Image</th>
                 <th>Description</th>
-                <th>rating</th>
-                <th>numReview</th>
+                <th>Quantity</th>
                 <th>Price</th>
-                <th>CountInStock</th>
                 <th>CreatedAt</th>
                 <th>UpdatedAt</th>
                 <th>Action</th>
@@ -98,10 +96,8 @@ const hdlDelete = async (id)=>{
                       <td><img src={`${product.image}`}
                         className='object-cover w-20 h-20' alt="image" /></td>
                       <td>{product.description}</td>
-                      <td>{product.rating}</td>
-                      <td>{product.numReveiw}</td>
+                      <td>{product.quantity}</td>
                       <td>{product.price}$</td>
-                      <td>{product.countInStock}</td>
                       <td>{product.createdAt}</td>
                       <td>{product.updateAt}</td>
                       <td style={{ width: "10px", whiteSpace: "nowrap" }}>

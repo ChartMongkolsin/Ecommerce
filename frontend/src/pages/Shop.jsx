@@ -95,7 +95,6 @@ function Shop() {
                         </div>
                     ))}
 
-                <Footer/>
             </div>
         </div >
     )

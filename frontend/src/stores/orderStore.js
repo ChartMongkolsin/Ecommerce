@@ -1,31 +1,45 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 import { create } from "zustand";
 
 /* ต้องตรงกับที่เรียกใช้ state ที่เรียกใช้ */
 const useOrderStore = create((set, get) => ({
-    order: [],
-    currentPost: null,
+    products:[],
+    orders: [],
+    carts:[],
     loading: false,
-    createOrderItems: async (body, token) => {
-        set({  loading: true })
-        console.log("body",body)
-        const rs = await axios.post('http://localhost:8889/order', {productId:body}, {
-            headers: { Authorization: `Bearer ${token}` }
-        })
-        console.log(rs.data)
-        /* ยิง axios แค่ครั้งเดียว */
-        set({ order: rs.data.result, loading: false })
-    },
-    /* getall post axios ส่งไป backend */
-    getAllOrder: async (token) => {
-        set({ loading: true })
-        const rs = await axios.get('http://localhost:8889/order', {
-            headers: { Authorization: `Bearer ${token}` }
-        })
-        // console.log(rs)
-        set({ order: rs.data.result, loading: false })
-        console.log(rs.data.result)
-        return rs.data.result
+    createOrder: async (token) => {
+        const { carts } = get();
+
+        if (carts?.length === 0) {
+            toast.error("Your cart is empty!");
+            return;
+        }
+
+        const orderData = {
+            items: carts?.map(item => ({
+                productId: item.id,
+                name: item.name,
+                price: item.product.price,
+                quantity: item.quantity,
+            })),
+            total: carts?.reduce((total, item) => total + item.product.price * item.quantity, 0),
+            status: "Pending",
+        };
+
+        try {
+            const response = await axios.post("http://localhost:8889/orders", orderData, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            console.log("Order Created:", response.data);
+            set({ carts: [] }); // ✅ ล้างตะกร้าหลังจากสร้างออเดอร์สำเร็จ
+            toast.success("Order created successfully!");
+        } catch (error) {
+            toast.error("Failed to create order.");
+            console.error("Error creating order:", error);
+        }
     }
 }))
+
 export default useOrderStore

@@ -18,12 +18,15 @@ module.exports.createCartItems = async (req, res, next) => {
         });
         const findProduct = await prisma.product.findUnique({ where: { id: productId } })
         if (!findUser) {
-             cart = await prisma.cart.create({ data: {user:{
-                connect:{
-                    id: req.user.id
+            cart = await prisma.cart.create({
+                data: {
+                    user: {
+                        connect: {
+                            id: req.user.id
+                        }
+                    }
                 }
-            }
-             } } )
+            })
         }
 
         if (!findProduct) {
@@ -33,22 +36,20 @@ module.exports.createCartItems = async (req, res, next) => {
         let result = {}
 
         const cartItem = await prisma.cartItem.findUnique({ where: { productId: productId } })
-        console.log("cartitem",cartItem)
+        console.log("cartitem", cartItem)
         if (cartItem) {
             result = await prisma.cartItem.update({
                 where: { id: cartItem.id, productId },
                 data: {
-                    qty: cartItem.qty + 1,
+                    quantity: cartItem.quantity + 1,
                 }
             })
-
-
         } else {
             result = await prisma.cartItem.create({
                 data: {
-                    qty: 1,
+                    quantity: 1,
                     productId,
-                    cartId : findUser.id || cart.id
+                    cartId: findUser.id || cart.id
                 }
             })
         }
@@ -57,13 +58,13 @@ module.exports.createCartItems = async (req, res, next) => {
         await prisma.product.update({
             where: { id: productId },
             data: {
-                countInStock: findProduct.countInStock - 1
+                quantity: findProduct.quantity - 1
             }
         })
         const resultFindCartItems = await prisma.cart.findFirst({
-            where:{userId : req.user.id},
-            include:{
-                cartItems : {
+            where: { userId: req.user.id },
+            include: {
+                cartItems: {
                     include: {
                         product: true
                     }
@@ -83,9 +84,9 @@ module.exports.getAllCartItems = async (req, res, next) => {
     try {
 
         const result = await prisma.cart.findFirst({
-            where:{userId : req.user.id},
-            include:{
-                cartItems : {
+            where: { userId: req.user.id },
+            include: {
+                cartItems: {
                     include: {
                         product: true
                     }
@@ -93,9 +94,9 @@ module.exports.getAllCartItems = async (req, res, next) => {
             }
 
         })
-        console.log("result",result)
+        console.log("result", result)
 
-        res.json({ msg: "getallItems", result : result.cartItems })
+        res.json({ msg: "getallItems", result: result.cartItems })
     } catch (error) {
         next(error)
     }

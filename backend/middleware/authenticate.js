@@ -5,7 +5,6 @@ const prisma = require('../config/prisma')
 
 module.exports = async(req, res, next) => {
     try {
-     
         const authorization = req.headers.authorization
         if(!authorization || !authorization.startsWith('Bearer ') ){
             createError(401, 'Unauthorized 1')

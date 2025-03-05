@@ -29,7 +29,7 @@ app.use("/payment",(req,res)=>{
 app.use("/cart",cartRoute)
 
 
-app.use("/order",orderRoute)
+app.use("/orders",orderRoute)
 app.use("/product",productRoute)
 
 app.use(errorMiddleware)
