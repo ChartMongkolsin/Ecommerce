@@ -1,10 +1,39 @@
 const createError = require('../utils/createError')
 const prisma = require('../config/prisma');
 
-module.exports.getAllOrder = async (req, res, next) => {
+module.exports.getOrder = async (req, res, next) => {
     try {
-            const userId = req.user.id
-        res.json({ order: rs })
+        let orders;
+
+        if (req.user.role === "ADMIN") {
+            // ✅ ADMIN เห็นออเดอร์ทั้งหมด พร้อมสินค้าภายในออเดอร์
+            orders = await prisma.order.findMany({
+                include: {
+                    user: true, // ดึงข้อมูลผู้ใช้ที่ทำการสั่งซื้อ
+                    orderitem: {
+                        include: {
+                            product: true, // ✅ ดึงข้อมูลสินค้าที่อยู่ในคำสั่งซื้อ
+                        },
+                    },
+                },
+                orderBy: { createdAt: "desc" },
+            });
+        } else {
+            // ✅ USER เห็นเฉพาะออเดอร์ของตัวเอง
+            orders = await prisma.order.findMany({
+                where: { userId: req.user.id },
+                include: {
+                    orderitem: {
+                        include: {
+                            product: true,
+                        },
+                    },
+                },
+                orderBy: { createdAt: "desc" },
+            });
+        }
+
+        res.json(orders);
     } catch (error) {
         next(error)
     }
@@ -38,7 +67,6 @@ module.exports.createOrder = async (req, res, next) => {
                 prisma.orderItem.create({
                     data: {
                         orderId: order.id,
-                        image: uploadResult.secure_url || '',
                         productId: item.productId,
                         quantity: +item.quantity,
                         price: +item.price,

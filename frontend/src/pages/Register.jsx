@@ -31,6 +31,17 @@ export default function Register() {
         password: '',
         confirmPassword: '',
       })
+
+      if (!(input.email.trim() && input.password.trim() && input.firstName.trim() && input.lastName.trim())) {
+        return toast.info('Please fill all input')
+      }
+      if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(input.email)) {
+        return toast.info("Please check type Email !!")
+      }
+      if(input.password !== input.confirmPassword ){
+        return toast.info("Password not match confirmPassword")
+      }
+
       e.target.closest('dialog').close()
       toast.success('Register ok')
     } catch (err) {

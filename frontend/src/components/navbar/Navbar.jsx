@@ -126,34 +126,40 @@ function Navbar() {
                         <button className='relative p-3 cursor-pointer group'>
                             <div className="dropdown dropdown-bottom">
                                 <div tabIndex={0} role="button" className="inline-block px-4 font-semibold text-gray-500 hover:text-black dark:hover:text-white duration-200">
-                                    {user?.firstName
-                                        ? <div className='flex gap-2'>
+
+                                    {user ? (
+                                        <div className='flex gap-2'>
                                             <Profile className="w-7 dark:text-gray-400" />
                                             <h1>{user.firstName}</h1>
                                             <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                                                <li><a><Link to="/edituser">
-                                                    <h1>Edit User</h1>
+                                                <li>
+                                                    <Link to="/myprofile" className='dark:text-black'><h1>My Profile</h1></Link>
+                                                </li>
+                                                <li>
+                                                    <Link to="/edituser" className='dark:text-black'><h1>Edit Profile</h1></Link>
+                                                </li>
+                                                {user.role === "ADMIN" && (
+                                                    <>
+                                                        <li>
+                                                            <Link to="/allproduct" className='dark:text-black'><h1>All Product List</h1></Link>
+                                                        </li>
+                                                        <li>
+                                                            <Link to="/createproduct" className='dark:text-black'><h1>Create Product</h1></Link>
+                                                        </li>
 
-                                                </Link></a></li>
-                                                <li><a><Link to="/allproduct">
-                                                    <h1>All Product List</h1>
-
-                                                </Link></a></li>
-                                                <li><a><Link to="/createproduct">
-                                                    <h1>Create Product</h1>
-
-                                                </Link></a></li>
-
-                                                <li
-                                                    onClick={logout}><a>Logout</a></li>
+                                                    </>
+                                                )}
+                                                <li className="cursor-pointer" onClick={logout}><a>Logout</a></li>
                                             </ul>
                                         </div>
-                                        : <div className='flex gap-2'>
-                                            {/* ? หลังถ้ามี ถ้าไม่มี */}
+                                    ) : (
+                                        // แสดง UI สำหรับ guest (ยังไม่ได้ login)
+                                        <div className='flex gap-2'>
                                             <Link to="/login">
                                                 <h1>LOGIN</h1>
                                             </Link>
-                                        </div>}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </button>

@@ -26,6 +26,7 @@ function Login() {
             if (!(input.email.trim() && input.password.trim())) {
                 return toast.info('Please fill all input')
             }
+
             
             await login(input)
             navigate("/")

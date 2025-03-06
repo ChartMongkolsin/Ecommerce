@@ -52,7 +52,6 @@ model OrderItem {
   id        Int      @id @default(autoincrement())
   orderId   Int
   quantity  Int
-  image     String
   price     Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

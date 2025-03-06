@@ -14,6 +14,7 @@ import CartModel from "../pages/CartModel";
 import EditProduct from "../pages/admin/EditProduct";
 import Contact from "../pages/Contact";
 import Order from "../pages/Order";
+import MyProfile from "../pages/MyProfile";
 
 
 const guestRouter = createBrowserRouter([
@@ -30,10 +31,12 @@ const adminRouter = createBrowserRouter([
         <Category />
         </> },
     {path : 'login', element: <Login/>},
+    {path : 'edituser', element : <EditUser/>},
+    {path : 'myprofile', element : <MyProfile/>},
     {path : 'shop', element : <Shop/>},
     {path : 'allproduct', element: <AllProduct/>},
-    {path : 'editproduct', element: <EditProduct/>},
     {path : 'createproduct', element: <CreateProduct/>},
+    {path : 'editproduct', element: <EditProduct/>},
     {path : 'order', element : <Order/>},
     {path : 'contact', element : <Contact/>},
     {path : '/', element: <Navigator to="/"/> }
@@ -47,13 +50,11 @@ const userRouter = createBrowserRouter([
             {path : "/", element :<>
             <Hero />
             <Category />
-            <CartModel/>
-            <Footer/>
             </> },
             {path : 'login', element : <Login/>},
             {path : 'edituser', element : <EditUser/>},
+            {path : 'myprofile', element : <MyProfile/>},
             {path : 'shop', element : <Shop/>},
-            {path : 'allproduct', element: <AllProduct/>},
             {path : 'order', element : <Order/>},
             {path : 'contact', element : <Contact/>},
             {path : '*', element : <Navigate to= "/"/>}
