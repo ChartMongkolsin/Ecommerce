@@ -2,9 +2,11 @@ const createError = require("../utils/createError");
 const jwt = require('jsonwebtoken')
 const prisma = require('../config/prisma')
 
+/* อธิบายโค๊ดหน้านี้ */
 
 module.exports = async(req, res, next) => {
     try {
+        /* token จากหน้าบ้าน *** */
         const authorization = req.headers.authorization
         if(!authorization || !authorization.startsWith('Bearer ') ){
             createError(401, 'Unauthorized 1')

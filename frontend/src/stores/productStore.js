@@ -16,7 +16,6 @@ const useProductStore = create(persist((set, get) => ({
         /* ยิง axios แค่ครั้งเดียว */
         set(state => ({
             products: [{ ...rs.data.result, name: [], desc: [], image: [] }, ...state.products],
-            carts: [{ ...rs.data.result, name: [], desc: [], image: [] }, ...state.carts]
         }))
     },
     /* getall post axios ส่งไป backend */

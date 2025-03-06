@@ -26,8 +26,8 @@ function Login() {
             if (!(input.email.trim() && input.password.trim())) {
                 return toast.info('Please fill all input')
             }
-            // คืออะไร
-            let data = await login(input)
+            
+            await login(input)
             navigate("/")
             toast.success("Login Success")
         } catch (err) {

@@ -39,7 +39,7 @@ const useOrderStore = create((set, get) => ({
             toast.error("Failed to create order.");
             console.error("Error creating order:", error);
         }
-    }
+    },
 }))
 
 export default useOrderStore

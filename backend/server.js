@@ -16,7 +16,9 @@ const orderRoute = require('./routes/order-route')
 const app = express()
 
 app.use(express.json())
+/* morgan */
 app.use(morgan('dev'))
+/* cors */
 app.use(cors())
 
 

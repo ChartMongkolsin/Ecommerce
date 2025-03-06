@@ -3,7 +3,7 @@ const prisma = require('../config/prisma');
 
 module.exports.getAllOrder = async (req, res, next) => {
     try {
-
+            const userId = req.user.id
         res.json({ order: rs })
     } catch (error) {
         next(error)
@@ -39,9 +39,9 @@ module.exports.createOrder = async (req, res, next) => {
                     data: {
                         orderId: order.id,
                         image: uploadResult.secure_url || '',
-                        productId: items.productId,
-                        quantity: item.quantity,
-                        price: item.price,
+                        productId: item.productId,
+                        quantity: +item.quantity,
+                        price: +item.price,
                     },
                 })
             )

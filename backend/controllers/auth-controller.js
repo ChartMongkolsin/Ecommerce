@@ -5,6 +5,7 @@ const createError = require('../utils/createError')
 
 module.exports.register = async (req, res, next) => {
     try {
+        /* หน้าบ้านส่งอะไรมา รับจากหลังบ้า */
         const { email, firstName, lastName, password, confirmPassword } = req.body
         // validation
         if (!(email.trim() && firstName.trim() && lastName && password && confirmPassword)) {

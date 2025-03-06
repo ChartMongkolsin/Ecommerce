@@ -52,14 +52,14 @@ function Shop() {
 
             const fetchproductdata = await getAllProduct(token)
             setProducts(fetchproductdata)
-            console.log(products)
+            // console.log(products)
         } catch (err) {
             const errMsg = err.response?.data?.err || err.message
             toast.error(errMsg)
             console.log(errMsg)
         }
     }
-    console.log('products', products)
+    // console.log('products', products)
 
 
     useEffect(() => {

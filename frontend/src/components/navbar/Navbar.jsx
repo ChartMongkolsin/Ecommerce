@@ -22,15 +22,15 @@ function Navbar() {
     const createOrder = useCartStore(state => state.createOrder)
 
 
-console.log('token', token)
-    console.log("first", allProducts)
+    // console.log('token', token)
+    // console.log("first", allProducts)
 
     const [isOpen, setIsOpen] = useState(false);
     const [products, setProducts] = useState(null)
     const [isCartOpen, setIsCartOpen] = useState(false)
 
-    console.log(carts)
-    console.log(user)
+    // console.log(carts)
+    // console.log(user)
 
 
 
@@ -205,8 +205,7 @@ console.log('token', token)
                 <div className='cart-bottom'>
                     <div className='total'>
                         <h3>total price : {totalPrice}</h3>
-                        <button onClick={() => {createOrder(token)}}
-
+                        <button onClick={() => { createOrder(token) }}
                             className='btn btn-primary w-full'>CheckOut
                         </button>
                     </div>

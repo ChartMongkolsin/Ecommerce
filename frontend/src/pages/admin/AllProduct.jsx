@@ -15,7 +15,7 @@ function AllProduct() {
   const getProduct = useProductStore(state=>state.getProduct)
 
 
-  // const [products, setProducts] = useState(null)
+  const [products, setProducts] = useState(null)
 
 
 const hdlDelete = async (id)=>{
