@@ -80,7 +80,7 @@ const createError = require('../utils/createError')
 //     } catch (error) {
 //         next(error)
 //     }
-// }
+// },
 module.exports.createCartItems = async (req, res, next) => {
     try {
         const { productId } = req.body;
@@ -156,6 +156,7 @@ module.exports.createCartItems = async (req, res, next) => {
         next(error);
     }
 };
+
 
 
 module.exports.getAllCartItems = async (req, res, next) => {

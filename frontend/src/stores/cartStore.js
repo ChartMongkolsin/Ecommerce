@@ -7,37 +7,37 @@ const useCartStore = create((set, get) => ({
     carts: [],
     orders: [],
     loading: false,
-    // createCartItems: async (productId , token) => {
-    //     set({ loading: true })
-    //     console.log("body", productId)
-    //     const rs = await axios.post('http://localhost:8889/cart', { productId }, {
-    //         headers: { Authorization: `Bearer ${token}` }
-    //     })
-    //     console.log(rs.data)
-    //     /* ยิง axios แค่ครั้งเดียว */
-    //     set({ carts: rs.data.result, loading: false })
-    // },
-    createCartItems: async (productId, token) => {
-        set({ loading: true });
-    
-        try {
-            const rs = await axios.post('http://localhost:8889/cart', { productId }, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-    
-            console.log("Cart Updated:", rs.data);
-    
-            // 🔥 เรียก getAllCart เพื่ออัปเดต state ใหม่
-            await get().getAllCart(token); 
-    
-            toast.success("Added to cart!");
-        } catch (error) {
-            console.error("Error adding to cart:", error);
-            toast.error("Failed to add item to cart");
-        } finally {
-            set({ loading: false });
-        }
+    createCartItems: async (productId , token) => {
+        set({ loading: true })
+        console.log("body", productId)
+        const rs = await axios.post('http://localhost:8889/cart', { productId }, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+        console.log(rs.data)
+        /* ยิง axios แค่ครั้งเดียว */
+        set({ carts: rs.data.result, loading: false })
     },
+    // createCartItems: async (productId, token) => {
+    //     set({ loading: true });
+    
+    //     try {
+    //         const rs = await axios.post('http://localhost:8889/cart', { productId }, {
+    //             headers: { Authorization: `Bearer ${token}` }
+    //         });
+    
+    //         console.log("Cart Updated:", rs.data);
+    
+    //         // 🔥 เรียก getAllCart เพื่ออัปเดต state ใหม่
+    //         await get().getAllCart(token); 
+    
+    //         toast.success("Added to cart!");
+    //     } catch (error) {
+    //         console.error("Error adding to cart:", error);
+    //         toast.error("Failed to add item to cart");
+    //     } finally {
+    //         set({ loading: false });
+    //     }
+    // },
     // /* getall post axios ส่งไป backend */
     getAllCart: async (token) => {
         set({ loading: true })
