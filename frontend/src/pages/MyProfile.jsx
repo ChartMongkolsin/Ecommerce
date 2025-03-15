@@ -46,6 +46,18 @@ function MyProfile() {
                         />
 
                     </div>
+                    <div>
+                        <p className="text-base font-semibold px-2">
+                            Role
+                        </p>
+                        <input
+                            className="w-full py-1 border-b-2 px-2 text-base font-medium placeholder:font-normal placeholder:text-sm outline-none"
+                            type="email"
+                            placeholder={user.role}
+                            disabled
+                        />
+
+                    </div>
                 </div>
             </form>
         </div>

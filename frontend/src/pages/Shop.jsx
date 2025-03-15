@@ -14,36 +14,37 @@ import Footer from '../components/footer/Footer'
 
 
 function Shop() {
-    const allProducts = useProductStore(state=>state.products)
+    const allProducts = useProductStore(state => state.products)
     const getAllProduct = useProductStore(state => state.getAllPosts)
     const token = useUserStore(state => state.token)
-    const createCartItems = useCartStore(state=> state.createCartItems)
+    const createCartItems = useCartStore(state => state.createCartItems)
+    const getAllCart = useCartStore(state => state.getAllCart);
 
     const [products, setProducts] = useState([])
-    
-        // const addToCart = () => {
-        //     const existingProduct = cart.find((item) => item.id === products.id);
-        //     if (existingProduct) {
-        //         setCart(
-        //             cart.map((item) => item.id === products.id ? { ...item, quantity: item.quantity + 1 } : item)
-    
-        //         );
-        //     } else {
-        //         setCart([...cart, { ...products, quantity: 1 }]);
-        //     }
-        // };
-    
-        // const removeFromCart = (productsId) => {
-        //     setCart(cart.filter((item) => item.id !== productsId));
-    
-        // };
-    
-        // const updateQuantity = (productsId, delta) => {
-        //     setCart(cart.map((item) => item.id === productsId ? { ...item, quantity: Math.max(item.quantity + delta, 1) } : item)
-        //     );
-        // };
-        
-        // const total = cart.reduce((sum,item)=> sum + item.price * item.quantity, 0);
+
+    // const addToCart = () => {
+    //     const existingProduct = cart.find((item) => item.id === products.id);
+    //     if (existingProduct) {
+    //         setCart(
+    //             cart.map((item) => item.id === products.id ? { ...item, quantity: item.quantity + 1 } : item)
+
+    //         );
+    //     } else {
+    //         setCart([...cart, { ...products, quantity: 1 }]);
+    //     }
+    // };
+
+    // const removeFromCart = (productsId) => {
+    //     setCart(cart.filter((item) => item.id !== productsId));
+
+    // };
+
+    // const updateQuantity = (productsId, delta) => {
+    //     setCart(cart.map((item) => item.id === productsId ? { ...item, quantity: Math.max(item.quantity + delta, 1) } : item)
+    //     );
+    // };
+
+    // const total = cart.reduce((sum,item)=> sum + item.price * item.quantity, 0);
 
 
 
@@ -62,9 +63,15 @@ function Shop() {
     // console.log('products', products)
 
 
+    // useEffect(() => {
+    //     fetchProducts()
+    // }, [])
+
     useEffect(() => {
-        fetchProducts()
-    }, [])
+        if (token) {
+            getAllCart(token); // ดึงข้อมูลตะกร้าเมื่อ login
+        }
+    }, [token]);
 
 
     return (
@@ -77,17 +84,18 @@ function Shop() {
                         /* Product Image */
                         <div key={index}>
                             <div className="card w-66 shadow-sm   ">
-                                    <img
-                                        src={product.image} className="w-full h-full rounded-xl"
-                                        alt={product.name}
-                                    />
+                                <img
+                                    src={product.image} className="w-full h-full rounded-xl"
+                                    alt={product.name}
+                                />
                                 <div className="card-body gap-2  dark:text-black ">
                                     <h2 className="card-title dark:text-white">{product.name}</h2>
                                     <p className='dark:text-white'>{product.desc}</p>
                                     <p className='dark:text-white'>{product.price}$</p>
                                     <div className="card-actions">
                                         <button className="btn btn-primary bg-green-500 border-none"
-                                        onClick={()=>createCartItems(product.id,token)}
+                                            onClick={() =>
+                                                createCartItems(product.id, token)}
                                         >Add To Cart</button>
                                     </div>
                                 </div>
