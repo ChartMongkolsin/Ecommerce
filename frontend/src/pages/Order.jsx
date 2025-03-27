@@ -84,7 +84,7 @@ function Order() {
                             <div className="border-t pt-2 mt-2">
                                 <h4 className="font-semibold">Items Ordered:</h4>
                                 <ul className="list-disc pl-5">
-                                    {order.orderItems?.map((item, index) => (
+                                    {order.orderitem?.map((item, index) => (
                                         <li key={index} className="mb-1">
                                             <span className="font-semibold">{item.product.name}</span> - 
                                             <span> {item.quantity} x ${item.price}</span>
@@ -92,44 +92,58 @@ function Order() {
                                     ))}
                                 </ul>
                             </div>
-
                             {user?.role === "ADMIN" && (
-                                <div className="mt-4">
-                                    {order.orderStatus !== "Completed" && order.orderStatus !== "Cancelled" ? (
-                                        <button
-                                            className="bg-green-500 text-white px-3 py-1 rounded-md text-sm hover:bg-green-600 transition me-2"
-                                            onClick={() => updateOrderStatus(order.id, "Completed")}
-                                        >
-                                            Mark as Completed
-                                        </button>
-                                    ) : (
-                                        <span className="text-green-600 me-2">
-                                            {order.orderStatus}
-                                        </span>
-                                    )}
+    <div className="mt-4">
+        {/* ปุ่มเปลี่ยนเป็น Completed */}
+        {order.orderStatus !== "Completed" && order.orderStatus !== "Cancelled" ? (
+            <button
+                className="bg-green-500 text-white px-3 py-1 rounded-md text-sm hover:bg-green-600 transition me-2"
+                onClick={() => updateOrderStatus(order.id, "Completed")}
+            >
+                Mark as Completed
+            </button>
+        ) : null}
 
-                                    {order.paymentStatus !== "Paid" ? (
-                                        <button
-                                            className="bg-blue-500 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-600 transition me-2"
-                                            onClick={() => updatePaymentStatus(order.id, "Paid")}
-                                        >
-                                            Mark as Paid
-                                        </button>
-                                    ) : (
-                                        <span className="text-green-600">Paid</span>
-                                    )}
+        {/* ปุ่มเปลี่ยนกลับเป็น Pending */}
+        {order.orderStatus !== "Pending" && (
+            <button
+                className="bg-yellow-500 text-white px-3 py-1 rounded-md text-sm hover:bg-yellow-600 transition me-2"
+                onClick={() => updateOrderStatus(order.id, "Pending")}
+            >
+                Mark as Pending
+            </button>
+        )}
 
-                                    {/* 🔴 ปุ่มยกเลิกคำสั่งซื้อ */}
-                                    {order.orderStatus !== "Cancelled" && order.orderStatus !== "Completed" && (
-                                        <button
-                                            className="bg-red-500 text-white px-3 py-1 rounded-md text-sm hover:bg-red-600 transition"
-                                            onClick={() => updateOrderStatus(order.id, "Cancelled")}
-                                        >
-                                            Cancel Order
-                                        </button>
-                                    )}
-                                </div>
-                            )}
+        {/* ปุ่มเปลี่ยน paymentStatus */}
+        {order.paymentStatus === "Paid" ? (
+            <button
+                className="bg-gray-500 text-white px-3 py-1 rounded-md text-sm hover:bg-gray-600 transition me-2 mt-2"
+                onClick={() => updatePaymentStatus(order.id, "Unpaid")}
+            >
+                Mark as Unpaid
+            </button>
+        ) : (
+            <button
+                className="bg-blue-500 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-600 transition me-2 mt-2"
+                onClick={() => updatePaymentStatus(order.id, "Paid")}
+            >
+                Mark as Paid
+            </button>
+        )}
+
+        {/* ปุ่มยกเลิกออเดอร์ */}
+        {order.orderStatus !== "Cancelled" && order.orderStatus !== "Completed" && (
+            <button
+                className="bg-red-500 text-white px-3 py-1 rounded-md text-sm hover:bg-red-600 transition mt-2"
+                onClick={() => updateOrderStatus(order.id, "Cancelled")}
+            >
+                Cancel Order
+            </button>
+        )}
+    </div>
+)}
+
+
                         </div>
                     ))}
                 </div>
