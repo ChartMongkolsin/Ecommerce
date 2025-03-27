@@ -110,25 +110,57 @@ module.exports.getOrder = async (req, res, next) => {
         }
     }
 
+// module.exports.updateOrder = async (req, res, next) => {
+//     try {
+//         const { orderId } = req.params;
+//         console.log("Order ID:", orderId);
+//         const { orderStatus, paymentStatus } = req.body;
+
+//         const updatedOrder = await prisma.order.update({
+//             where: {
+//                 id: parseInt(orderId, 10), // Ensure orderId is an integer
+//               },
+//               data: {
+//                 orderStatus: orderStatus || "Completed",
+//                 paymentStatus: paymentStatus || undefined,
+//                 updatedAt: new Date(),
+//               },
+//             });
+
+//         res.json({ order: updatedOrder });
+//     } catch (error) {
+//         next(error);
+//     }
+// };
 module.exports.updateOrder = async (req, res, next) => {
     try {
-        const { orderId } = req.params;
+        const { id } = req.params;
+        console.log("Order ID:", id, typeof id); // ตรวจสอบค่าที่รับมา
         const { orderStatus, paymentStatus } = req.body;
 
+        // ตรวจสอบว่า id ถูกส่งมาหรือไม่
+        if (!id || isNaN(id)) {
+            return res.status(400).json({ error: "Invalid orderId" });
+        }
+
         const updatedOrder = await prisma.order.update({
-            where: { id: Number(orderId) },
+            where: {
+                id: parseInt(id, 10), // แปลงเป็น Integer
+            },
             data: {
-                orderStatus,
-                paymentStatus,
+                orderStatus: orderStatus || "Completed",
+                paymentStatus: paymentStatus || undefined,
                 updatedAt: new Date(),
             },
         });
 
         res.json({ order: updatedOrder });
     } catch (error) {
+        console.error("Update Order Error:", error);
         next(error);
     }
 };
+
 module.exports.deletedOrder = async (req, res, next) => {
     try {
         const { orderId } = req.params;
