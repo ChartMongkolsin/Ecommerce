@@ -39,19 +39,88 @@ module.exports.getOrder = async (req, res, next) => {
     }
 },
 
+    // module.exports.createOrder = async (req, res, next) => {
+    //     try {
+
+    //         const { items, total } = req.body;
+    //         console.log('items', items)
+    //         console.log('total', total)
+    //         const userId = req.user.id;
+
+    //         if (!items || items.length === 0) {
+    //             return res.status(400).json({ error: "Your cart is empty." });
+    //         }
+
+    //         // ✅ 1. สร้างคำสั่งซื้อ
+    //         const order = await prisma.order.create({
+    //             data: {
+    //                 priceTotal: +total.toFixed(2),
+    //                 orderStatus: "Pending",
+    //                 paymentStatus: "Unpaid",
+    //                 userId: userId,
+    //             }
+    //         });
+
+    //         // ✅ 2. เพิ่มสินค้าเข้าไปใน Order_Product
+    //         const orderItems = await Promise.all(
+    //             items.map(async (item) => {
+    //                 console.log("Processing item:", item);
+
+    //                 // Fetch product price from the database
+    //                 const product = await prisma.product.findUnique({
+    //                     where: { id: item.productId },
+    //                     select: { price: true }
+    //                 });
+
+    //                 if (!product) {
+    //                     throw new Error(`Product not found: ${JSON.stringify(item)}`);
+    //                 }
+
+    //                 const price = product.price;
+    //                 const quantity = Number(item.quantity);
+
+    //                 console.log("Fetched price:", price, "Converted quantity:", quantity);
+
+    //                 if (isNaN(price) || isNaN(quantity)) {
+    //                     throw new Error(`Invalid price or quantity: ${JSON.stringify(item)}`);
+    //                 }
+
+    //                 return {
+    //                     orderId: order.id,
+    //                     productId: item.productId,
+    //                     quantity,
+    //                     price,
+    //                 };
+    //             })
+    //         );
+
+    //         // Run the database insertions inside a transaction
+    //         await prisma.$transaction(
+    //             orderItems.map((orderItem) =>
+    //                 prisma.orderItem.create({
+    //                     data: orderItem,
+    //                 })
+    //             )
+    //         );
+
+    //         res.status(201).json({ message: "Order created successfully!", order });
+
+    //     } catch (error) {
+    //         next(error)
+    //     }
+    // }
     module.exports.createOrder = async (req, res, next) => {
         try {
-
             const { items, total } = req.body;
-            console.log('items', items)
-            console.log('total', total)
+            console.log('Items:', items);  // Log incoming items for debugging
+            console.log('Total:', total);  // Log total for debugging
             const userId = req.user.id;
-
+    
             if (!items || items.length === 0) {
                 return res.status(400).json({ error: "Your cart is empty." });
             }
-
-            // ✅ 1. สร้างคำสั่งซื้อ
+    
+            // Create an order
             const order = await prisma.order.create({
                 data: {
                     priceTotal: +total.toFixed(2),
@@ -60,31 +129,32 @@ module.exports.getOrder = async (req, res, next) => {
                     userId: userId,
                 }
             });
-
-            // ✅ 2. เพิ่มสินค้าเข้าไปใน Order_Product
+    
+            // Process each item in the cart
             const orderItems = await Promise.all(
                 items.map(async (item) => {
                     console.log("Processing item:", item);
-
+    
                     // Fetch product price from the database
                     const product = await prisma.product.findUnique({
                         where: { id: item.productId },
                         select: { price: true }
                     });
-
+    
                     if (!product) {
-                        throw new Error(`Product not found: ${JSON.stringify(item)}`);
+                        console.error(`Product not found with ID: ${item.productId}`);
+                        throw new Error(`Product not found with ID: ${item.productId}`);
                     }
-
+    
                     const price = product.price;
                     const quantity = Number(item.quantity);
-
+    
                     console.log("Fetched price:", price, "Converted quantity:", quantity);
-
+    
                     if (isNaN(price) || isNaN(quantity)) {
-                        throw new Error(`Invalid price or quantity: ${JSON.stringify(item)}`);
+                        throw new Error(`Invalid price or quantity for productId: ${item.productId}`);
                     }
-
+    
                     return {
                         orderId: order.id,
                         productId: item.productId,
@@ -93,8 +163,8 @@ module.exports.getOrder = async (req, res, next) => {
                     };
                 })
             );
-
-            // Run the database insertions inside a transaction
+    
+            // Insert order items into the database inside a transaction
             await prisma.$transaction(
                 orderItems.map((orderItem) =>
                     prisma.orderItem.create({
@@ -102,14 +172,16 @@ module.exports.getOrder = async (req, res, next) => {
                     })
                 )
             );
-
+    
             res.status(201).json({ message: "Order created successfully!", order });
-
+    
         } catch (error) {
-            next(error)
+            console.error("Error creating order:", error);  // Log the error for debugging
+            next(error);
         }
-    }
-
+    };
+    
+    
 // module.exports.updateOrder = async (req, res, next) => {
 //     try {
 //         const { orderId } = req.params;

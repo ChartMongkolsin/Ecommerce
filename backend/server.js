@@ -10,6 +10,7 @@ const productRoute = require('./routes/product-route')
 const morgan = require('morgan')
 const cartRoute = require('./routes/cart-route')
 const orderRoute = require('./routes/order-route')
+const checkOutRoute = require('./routes/checkout-route')
 
 
 
@@ -33,6 +34,10 @@ app.use("/cart",cartRoute)
 
 app.use("/orders",orderRoute)
 app.use("/product",productRoute)
+
+app.use("/checkout",checkOutRoute)
+
+
 
 app.use(errorMiddleware)
 app.use(notFound)
