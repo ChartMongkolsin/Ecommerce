@@ -32,20 +32,18 @@ const hdlDelete = async (id)=>{
 
 
 
+const fetchProducts = async () => {
+  try {
+    const fetchproductdata = await getAllProduct(token);
+    setProducts(fetchproductdata);
+    console.log(products);
+  } catch (err) {
+    const errMsg = err.response?.data?.err || err.message;
+    toast.error(errMsg);
+    console.log(errMsg);
+  }
+};
 
-    const fetchProducts = async () => {
-      try {
-
-
-        const fetchproductdata = await getAllProduct(token)
-        setProducts(fetchproductdata)
-        console.log(products)
-      } catch (err) {
-        const errMsg = err.response?.data?.err || err.message
-        toast.error(errMsg)
-        console.log(errMsg)
-      }
-    }
     console.log('products', products)
 
 
@@ -65,7 +63,7 @@ const hdlDelete = async (id)=>{
               className='btn btn-primary me-1'
               role="button"
             >Create Product</Link>
-            <button type="button"
+            <button type="button" onClick={fetchProducts}
               className='btn btn-outline-primary'>
               Refresh</button>
           </div>

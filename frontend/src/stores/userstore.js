@@ -23,8 +23,15 @@ const useUserStore = create(persist((set, get) => ({
         })
             set({user: rs.data.user})
     },
+    actionCurrentUser : async (token) => {
+        const rs = await axios.get('http://localhost/8889/auth/profile', {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+        set({user: rs.data.user})
+    },
 
-}), {
+}),
+ {
     name: 'state',
     storage: createJSONStorage(() => localStorage)
 }))

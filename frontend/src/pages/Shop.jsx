@@ -19,6 +19,7 @@ function Shop() {
     const token = useUserStore(state => state.token)
     const createCartItems = useCartStore(state => state.createCartItems)
     const getAllCart = useCartStore(state => state.getAllCart);
+    const clearCart = useCartStore(state => state.clearCart); // Get clearCart method
 
     const [products, setProducts] = useState([])
 
@@ -63,15 +64,19 @@ function Shop() {
     // console.log('products', products)
 
 
-    // useEffect(() => {
-    //     fetchProducts()
-    // }, [])
-
     useEffect(() => {
         if (token) {
-            getAllCart(token); // ดึงข้อมูลตะกร้าเมื่อ login
+            fetchProducts()
+            getAllCart(token); // โหลดข้อมูลตะกร้าล่าสุด
+            clearCart();
         }
-    }, [token]);
+    }, [token, createCartItems,clearCart]);
+
+    // useEffect(() => {
+    //     if (token) {
+    //          // โหลดข้อมูลตะกร้าใหม่ทุกครั้งที่เข้า shop
+    //     }
+    // }, [token, getAllCart]);
 
 
     return (
