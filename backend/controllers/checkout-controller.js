@@ -115,45 +115,61 @@ const stripe = require('stripe')('sk_test_51R80FrRplpVJaCw84buDa0mo4kCWBIVOc6cmI
 // };
 module.exports.checkout = async (req, res, next) => {
   try {
+    // const { id } = req.body;
+
+    // let order;
+
+    // if (id) {
+    //   order = await prisma.order.findFirst({
+    //     where: { id: id },
+    //     include: {
+    //       orderitem: {
+    //         include: {
+    //           product: true, // ดึงข้อมูล product ที่อยู่ใน orderitem
+    //         },
+    //       },
+    //     },
+    //   });
+    // } else {
+    //   order = await prisma.order.findFirst({
+    //     orderBy: { createdAt: "desc" },
+    //     take: 1,
+    //     include: {
+    //       orderitem: {
+    //         include: {
+    //           product: true, // ดึงข้อมูล product ที่อยู่ใน orderitem
+    //         },
+    //       },
+    //     },
+    //   });
+    // }
+
+    // if (!order) {
+    //   return next(createError(404, "Order not found"));
+    // }
+    // if (!order.orderitem || order.orderitem.length === 0) {
+    //   return res.status(400).json({ message: "No items found in order" });
+    // }
     const { id } = req.body;
 
-    let order;
-
-    if (id) {
-      order = await prisma.order.findFirst({
-        where: { id: id },
-        include: {
-          orderitem: {
-            include: {
-              product: true, // ดึงข้อมูล product ที่อยู่ใน orderitem
-            },
-          },
+    let order = await prisma.order.findFirst({
+      where: id ? { id } : {},
+      orderBy: id ? undefined : { createdAt: "desc" },
+      include: {
+        orderitem: {
+          include: { product: true },
         },
-      });
-    } else {
-      order = await prisma.order.findFirst({
-        orderBy: { createdAt: "desc" },
-        take: 1,
-        include: {
-          orderitem: {
-            include: {
-              product: true, // ดึงข้อมูล product ที่อยู่ใน orderitem
-            },
-          },
-        },
-      });
-    }
+      },
+    });
 
     if (!order) {
       return next(createError(404, "Order not found"));
     }
 
-    console.log("✅ Latest order:", order);
+    if (!order.orderitem || order.orderitem.length === 0) {
+      return res.status(400).json({ message: "No items found in order" });
+    }
 
-    // ใช้ priceTotal จาก order
-    const { priceTotal } = order;
-
-    // ดึงข้อมูลสินค้าทั้งหมดจาก orderItem
     const line_items = order.orderitem.map((item) => ({
       quantity: item.quantity,
       price_data: {
@@ -161,11 +177,30 @@ module.exports.checkout = async (req, res, next) => {
         product_data: {
           name: item.product.name,
           description: item.product.desc,
-          images: [item.product.image], // ใช้ images เป็น array
+          images: [item.product.image],
         },
-        unit_amount: +item.price * 100,
+        unit_amount: Math.round(item.price * 100), // เผื่อกรณีราคามีทศนิยม
       },
     }));
+    console.log("✅ Latest order:", order);
+
+    // ใช้ priceTotal จาก order
+    const { priceTotal } = order;
+
+    // ดึงข้อมูลสินค้าทั้งหมดจาก orderItem
+    // const line_items = order.orderitem.map((item) => ({
+    //   quantity: item.quantity,
+    //   price_data: {
+    //     currency: "thb",
+    //     product_data: {
+    //       name: item.product.name,
+    //       description: item.product.desc,
+    //       images: [item.product.image], // ใช้ images เป็น array
+    //     },
+    //     unit_amount: Math.round(item.price * 100),
+    //   },
+    // }));
+    console.log("🧾 Line Items:", line_items);
 
     const session = await stripe.checkout.sessions.create({
       ui_mode: "embedded",
