@@ -20,6 +20,8 @@ function Navbar() {
     const removeFromCart = useCartStore(state => state.removeFromCart)
     const inCreaseCart = useCartStore(state => state.IncreaseCart)
     const createOrder = useCartStore(state => state.createOrder)
+    const getAllCart = useCartStore(state => state.getAllCart);
+
 
     const clearCart = useCartStore(state => state.clearCart); // Get clearCart method
 
@@ -36,10 +38,11 @@ function Navbar() {
     // console.log(user)
 
    useEffect(() => {
+     
         if (token) {
-            clearCart();
+            getAllCart(token); // โหลดตะกร้าทันทีหลัง login หรือ refresh
         }
-    }, []);
+    }, [token]);
 
 
     // const handleAddToCart = () => {
@@ -57,7 +60,13 @@ function Navbar() {
     const totalPrice = carts.reduce((total, item) => {
         return total + item.product.price * item.quantity;
     }, 0);
-
+    
+    // const totalPrice = (carts && carts.length > 0) ? carts.reduce((total, item) => {
+    //     if (item.product && item.product.price) {
+    //         return total + item.product.price * item.quantity;
+    //     }
+    //     return total;
+    // }, 0) : 0;
 
 
     const MenuLinks = [

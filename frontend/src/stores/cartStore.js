@@ -7,80 +7,27 @@ const useCartStore = create((set, get) => ({
     carts: [],
     orders: [],
     loading: false,
-    // ตอนที่ยัง เพิ่ม quantity ต่อไปเรื่อยๆ
-    // createCartItems: async (productId , token) => {
-    //     set({ loading: true })
-    //     console.log("body", productId)
-    //     const rs = await axios.post('http://localhost:8889/cart', { productId }, {
-    //         headers: { Authorization: `Bearer ${token}` }
-    //     })
-    //     console.log(rs.data)
-    //     /* ยิง axios แค่ครั้งเดียว */
-    //     set({ carts: rs.data.result, loading: false })
-    // },
+
 
     createCartItems: async (productId, token) => {
         set({ loading: true })
         const rs = await axios.post('http://localhost:8889/cart', { productId }, {
             headers: { Authorization: `Bearer ${token}` }
         })
-    
+
         // Set the cart to the updated list of products with quantity 1
         set({ carts: rs.data.result.map(item => ({ ...item, quantity: 1 })), loading: false })
     },
-    
-    // createCartItems: async (productId, token) => {
-    //     set({ loading: true });
 
-    //     try {
-    //         const rs = await axios.post('http://localhost:8889/cart', { productId }, {
-    //             headers: { Authorization: `Bearer ${token}` }
-    //         });
-
-    //         console.log("Cart Updated:", rs.data);
-
-    //         // ✅ โหลดข้อมูลใหม่หลังจากเพิ่มสินค้า
-    //         await get().getAllCart(token);
-
-    //         toast.success("Added to cart!");
-    //     } catch (error) {
-    //         console.error("Error adding to cart:", error);
-    //         toast.error("Failed to add item to cart");
-    //     } finally {
-    //         set({ loading: false });
-    //     }
-    // },
-
+   
 
     getAllCart: async (token) => {
         set({ loading: true })
         const rs = await axios.get('http://localhost:8889/cart', {
             headers: { Authorization: `Bearer ${token}` }
         })
-        // console.log(rs)
-        // set({ carts: rs.data.result, loading: false })
-        // console.log(rs.data.result)
         return rs.data.result
     },
-
-    // getAllCart: async (token) => {
-    //     set({ loading: true });
-
-    //     try {
-
-    //         const rs = await axios.get('http://localhost:8889/cart', {
-    //             headers: { Authorization: `Bearer ${token}` }
-    //         });
-
-    //         console.log("Fetched Cart:", rs.data.result); // 🔍 ตรวจสอบค่าที่ได้จาก backend
-
-    //         set({ carts: rs.data.result, loading: false });
-    //     } catch (error) {
-    //         console.error("Error fetching cart:", error);
-    //         set({ loading: false });
-    //     }
-    // },
-
 
 
     IncreaseCart: (item) => {
@@ -131,7 +78,7 @@ const useCartStore = create((set, get) => ({
 
         const orderData = {
             items: carts?.map(item => ({
-                productId: item.id,
+                productId: item.product.id,
                 name: item.name,
                 price: item.price,
                 quantity: item.quantity,
